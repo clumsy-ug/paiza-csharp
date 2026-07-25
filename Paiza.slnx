@@ -8,5 +8,6 @@
     <Project Path="problems/001_hello/001_hello.csproj" />
     <Project Path="problems/002_two_ints/002_two_ints.csproj" />
     <Project Path="problems/003_n_lines/003_n_lines.csproj" />
+    <Project Path="problems/004_文字列_paiza_を出力してください/004_文字列_paiza_を出力してください.csproj" />
   </Folder>
 </Solution>
