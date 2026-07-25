@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // 開いている Program.cs の問題を、同じフォルダの input.txt を標準入力にして実行
+      "name": "今開いている問題を実行 (input.txt)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build: 今開いている問題",
+      "program": "${fileDirname}/bin/Debug/net10.0/problem.dll",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "console": "integratedTerminal",
+      "stopAtEntry": false
+    },
+    {
+      // input.txt を使わず、自分でキーボードから入力する
+      "name": "今開いている問題を実行 (キーボード入力)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build: 今開いている問題",
+      "program": "${fileDirname}/bin/Debug/net10.0/problem.dll",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "console": "integratedTerminal",
+      "stopAtEntry": false,
+      "env": {
+        "PAIZA_STDIN": "console"
+      }
+    }
+  ]
+}

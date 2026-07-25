@@ -1,0 +1,71 @@
+<Project>
+
+  <!--
+    problems\ 配下の全プロジェクトに適用される共通設定。
+    各問題の .csproj は空でよい。
+
+    paiza の実行環境 (https://paiza.jp/guide/language):
+      Mono JIT compiler 6.8.0.105 / 実行時間 5.0 秒 / メモリ 512 MB
+
+    このリポジトリの構成:
+      - 編集・IntelliSense・デバッグ実行 ... .NET 10 + Roslyn (型が見える、ブレークポイントが効く)
+      - 構文チェック・採点             ... Mono の mcs + mono (paiza と同じツールチェーン)
+    ビルドのたびに mcs を通すので、paiza で通らないコードはローカルでビルドが失敗する。
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+
+    <!--
+      Mono の mcs は -langversion 未指定だと C# 7.0 として振る舞う (実測)。
+      paiza もおそらく既定のまま呼んでいるので 7.0 に合わせる。
+      なお mcs が受け付ける上限は 7.2 で、7.3 は指定そのものが存在しない。
+    -->
+    <LangVersion>7.0</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+
+    <!--
+      ローカル実行時のエントリポイントを LocalRunner に差し替える。
+      LocalRunner が input.txt を標準入力に流し込んでから Main を呼ぶので、
+      Program.cs にローカル専用のコードを入れずに済む。
+    -->
+    <StartupObject>LocalRunner</StartupObject>
+
+    <!--
+      出力ファイル名は問題名によらず固定にする。
+      問題フォルダに日本語を使っても、デバッガに渡すパス
+      (bin\Debug\net10.0\problem.dll) が ASCII のままになる。
+    -->
+    <AssemblyName>problem</AssemblyName>
+
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+
+    <!-- ビルド時の mcs チェックを止めたいときは false にする -->
+    <PaizaMonoCheck Condition="'$(PaizaMonoCheck)' == ''">true</PaizaMonoCheck>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)shared\LocalRunner.cs" Link="_local\LocalRunner.cs" />
+  </ItemGroup>
+
+  <!-- mcs の場所を探す。見つからなければチェックは黙ってスキップされる。 -->
+  <PropertyGroup>
+    <MonoMcs Condition="'$(MonoMcs)' == '' And Exists('$(ProgramW6432)\Mono\bin\mcs.bat')">$(ProgramW6432)\Mono\bin\mcs.bat</MonoMcs>
+    <MonoMcs Condition="'$(MonoMcs)' == '' And Exists('$(ProgramFiles)\Mono\bin\mcs.bat')">$(ProgramFiles)\Mono\bin\mcs.bat</MonoMcs>
+  </PropertyGroup>
+
+  <!--
+    Roslyn が通しても mcs が通さない構文 (ローカル関数、switch の型パターンなど) を
+    ここで落とす。mcs のエラーは csc と同じ形式なので、VS Code の「問題」パネルに出る。
+  -->
+  <Target Name="PaizaMonoCheck"
+          AfterTargets="Build"
+          Condition="'$(PaizaMonoCheck)' == 'true' And '$(MonoMcs)' != '' And Exists('$(MSBuildProjectDirectory)\Program.cs')">
+    <Exec Command="&quot;$(MonoMcs)&quot; -target:exe -nologo -out:&quot;$(IntermediateOutputPath)mcs-check.exe&quot; &quot;$(MSBuildProjectDirectory)\Program.cs&quot;"
+          StandardOutputImportance="high" />
+  </Target>
+
+</Project>

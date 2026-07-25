@@ -1,0 +1,8 @@
+# 既定はテキストとして扱い、リポジトリ内は LF、チェックアウト時は OS に合わせる
+* text=auto
+
+# PowerShell スクリプトは Windows 前提なので CRLF で取り出す
+*.ps1 text eol=crlf
+
+# 問題の入出力は Windows で編集するので CRLF
+*.txt text eol=crlf

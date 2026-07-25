@@ -1,0 +1,103 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // 既定のビルドタスク (Ctrl+Shift+B)。
+      // 開いている Program.cs の問題を input.txt で実行し、expected.txt と比較する。
+      "label": "採点: input.txt で実行して expected.txt と比較",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-File", "${workspaceFolder}/tools/Run-Problem.ps1",
+        "${fileDirname}"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "clear": true, "panel": "dedicated" }
+    },
+    {
+      // F5 の preLaunchTask として使うビルドタスク
+      "label": "build: 今開いている問題",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["build", "${fileDirname}", "--nologo", "-v", "quiet"],
+      "problemMatcher": "$msCompile",
+      "presentation": { "reveal": "silent", "clear": true }
+    },
+    {
+      "label": "new: 新しい問題フォルダを作る",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-File", "${workspaceFolder}/tools/New-Problem.ps1",
+        "${input:problemName}"
+      ],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "clear": true }
+    },
+    {
+      "label": "remove: 問題フォルダを削除する",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-File", "${workspaceFolder}/tools/Remove-Problem.ps1",
+        "${input:problemToRemove}"
+      ],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "clear": true }
+    },
+    {
+      // フォルダを開いたときに自動起動する常駐タスク。
+      // Program.cs を保存するたびに mcs を走らせ、結果を「問題」パネルに出す。
+      // Roslyn が見逃す mcs 固有のエラー (CS1525 / CS0589 / CS1061) をビルド前に検出する。
+      "label": "watch: 保存時に mcs でチェック",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-File", "${workspaceFolder}/tools/Watch-Mono.ps1"
+      ],
+      "isBackground": true,
+      "runOptions": { "runOn": "folderOpen" },
+      "presentation": { "reveal": "never", "panel": "dedicated" },
+      "problemMatcher": {
+        "owner": "mcs",
+        "source": "mcs",
+        "fileLocation": ["absolute"],
+        "pattern": {
+          "regexp": "^(.*)\\((\\d+),(\\d+)\\):\\s+(error|warning)\\s+(CS\\d+):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "code": 5,
+          "message": 6
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^\\[mcs\\] checking",
+          "endsPattern": "^\\[mcs\\] done"
+        }
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "problemName",
+      "type": "promptString",
+      "description": "問題名（日本語OK / 番号は自動で付きます）"
+    },
+    {
+      "id": "problemToRemove",
+      "type": "promptString",
+      "description": "削除する問題フォルダ名（部分一致でOK。確認を求められます）"
+    }
+  ]
+}

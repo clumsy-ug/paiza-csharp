@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/problems/">
+    <Project Path="problems/001_hello/001_hello.csproj" />
+    <Project Path="problems/002_two_ints/002_two_ints.csproj" />
+    <Project Path="problems/003_n_lines/003_n_lines.csproj" />
+  </Folder>
+</Solution>

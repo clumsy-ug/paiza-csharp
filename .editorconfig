@@ -1,0 +1,23 @@
+root = true
+
+[*]
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+
+# paiza に貼り付ける前提なので、var への書き換え提案は出さない
+csharp_style_var_for_built_in_types = false:none
+csharp_style_var_when_type_is_apparent = false:none
+dotnet_diagnostic.IDE0090.severity = none
+
+[*.{json,yml,md}]
+indent_style = space
+indent_size = 2
+
+[*.txt]
+trim_trailing_whitespace = false
+insert_final_newline = false

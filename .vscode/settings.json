@@ -1,0 +1,43 @@
+{
+  "dotnet.defaultSolution": "Paiza.slnx",
+
+  // ---- 「型が見たい」対策: 型と引数名をエディタ上に常に表示する --------------
+  "editor.inlayHints.enabled": "on",
+  "csharp.inlayHints.enableInlayHintsForTypes": true,
+  "csharp.inlayHints.enableInlayHintsForImplicitVariableTypes": true,
+  "csharp.inlayHints.enableInlayHintsForLambdaParameterTypes": true,
+  "csharp.inlayHints.enableInlayHintsForImplicitObjectCreation": true,
+  "csharp.inlayHints.enableInlayHintsForParameters": true,
+  "csharp.inlayHints.enableInlayHintsForLiteralParameters": true,
+  "csharp.inlayHints.enableInlayHintsForIndexerParameters": true,
+  "csharp.inlayHints.enableInlayHintsForObjectCreationParameters": true,
+  "csharp.inlayHints.enableInlayHintsForOtherParameters": true,
+
+  // 定義に潜らなくても中身が読めるように
+  "csharp.showOmnisharpLogOnError": false,
+  "editor.hover.delay": 200,
+  "editor.parameterHints.enabled": true,
+  "editor.suggestSelection": "first",
+
+  // ---- 保存時の整形 --------------------------------------------------------
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true
+  },
+
+  // ---- ノイズを消す --------------------------------------------------------
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true
+  },
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true
+  },
+  "files.encoding": "utf8",
+  "debug.internalConsoleOptions": "neverOpen",
+  "dotnet.automaticallyCreateSolutionInWorkspace": false
+}
+
