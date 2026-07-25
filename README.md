@@ -24,12 +24,19 @@ Mono に存在しない API を検出できません。
 code .
 ```
 
-このリポジトリで使うキーは 2 つです。
+使うキーは 2 つです。どちらも VS Code の標準キーで、追加設定は要りません。
 
-| キー | 動作 |
-| --- | --- |
-| `Ctrl+Enter` | 採点 (既定のビルドタスク = 採点にしてある) |
-| `Ctrl+Shift+Enter` | デバッグ実行 |
+| キー | 動作 | 中身 |
+| --- | --- | --- |
+| `Ctrl+Shift+B` | 採点 | `Run Build Task`。採点タスクを既定のビルドタスクにしてある |
+| `F5` | デバッグ実行 | `Start Debugging` |
+
+押しやすいキーに変えたい場合は、`Ctrl+K Ctrl+S` → 右上の「キーボード ショートカットを開く (JSON)」で
+自分の `keybindings.json` に足します (リポジトリには含めない個人設定)。
+
+```json
+{ "key": "ctrl+enter", "command": "workbench.action.tasks.build", "when": "editorTextFocus" }
+```
 
 保存時の `mcs` チェックを有効にするため、自動タスクを許可します。
 
@@ -125,7 +132,7 @@ Roslyn の赤波線が出ていなくても、ここにエラーが出たら pai
 
 ### 4. 採点する
 
-`Program.cs` をアクティブにした状態で `Ctrl+Enter`。
+`Program.cs` をアクティブにした状態で `Ctrl+Shift+B`。
 
 ```
 === 004_sum_of_array ===
@@ -148,16 +155,15 @@ Roslyn の赤波線が出ていなくても、ここにエラーが出たら pai
 
 実行時例外なら Mono のスタックトレースがそのまま出ます。
 
-出力が合わない理由が分からないときは `Ctrl+Shift+Enter` でデバッグ実行します。
+出力が合わない理由が分からないときは `F5` でデバッグ実行します。
 行番号の左をクリックしてブレークポイントを置くと、そこで止まって変数の中身を見られます
 (`input.txt` が標準入力として流し込まれます)。
 `F10` で次の行へ、`F11` で関数の中へ、`Shift+F5` で停止。
 
 自分でキーボードから入力したい場合は、デバッグ構成を「キーボード入力」に切り替えて実行します。
 
-> デバッグ実行は標準では `F5` です。この環境では `keybindings.json` で
-> `F5` を無効化し `Ctrl+Shift+Enter` に割り当てています。
-> `Ctrl+K Ctrl+S` で `Debug: Start Debugging` を検索すれば現在の割り当てが確認できます。
+> `F5` を押しても何も起きない場合は、`keybindings.json` で `Debug: Start Debugging` が
+> 別のキーに割り当てられているか無効化されています。`Ctrl+K Ctrl+S` で確認してください。
 
 ### 5. paiza に提出する
 
@@ -208,8 +214,8 @@ paiza の `mcs` は C# 7.0 相当で、しかも C# 7.0 の一部が未実装で
 | `CS1644` / `CS8370` | C# 7.1 以降の構文。上の表を見て書き換える |
 | `CS1061 ... does not contain a definition for` | Mono に無い API。`CHEATSHEET.md` の代替を使う |
 | 保存しても mcs のエラーが出ない | 自動タスクが未許可。「0. 最初の 1 回だけ」をやり直す |
-| `Ctrl+Enter` / `Ctrl+Shift+Enter` が別の問題を実行する | 対象の `Program.cs` をアクティブにしてから押す |
-| `Ctrl+Enter` でタスク一覧が出る | 既定のビルドタスクが解決できていない。一覧から「採点: input.txt で実行して expected.txt と比較」を選ぶ |
+| `Ctrl+Shift+B` / `F5` が別の問題を実行する | 対象の `Program.cs` をアクティブにしてから押す |
+| `Ctrl+Shift+B` でタスク一覧が出る | 一覧から「採点: input.txt で実行して expected.txt と比較」を選ぶ |
 | キーが効かない | `Ctrl+K Ctrl+S` で `Run Build Task` / `Debug: Start Debugging` の割り当てを確認する |
 | キーボード入力が終われない | `Ctrl+Z` → `Enter` (EOF) |
 | `error MSB3202: プロジェクト ファイル ... が見つかりませんでした` | 問題フォルダを手で消した。`Paiza.slnx` の該当 `<Project Path="..." />` 行を消す。`New-Problem.ps1` / `Remove-Problem.ps1` を実行しても自動で掃除される |
@@ -274,7 +280,7 @@ Roslyn だけでは `LangVersion` で防げる範囲 (C# 7.1 以降の構文) �
 2. ビルド時 … `Directory.Build.props` が `mcs` を通し、失敗するとビルドを止める
    (デバッグ実行も止まる)
 
-そのうえで採点 (`Ctrl+Enter`) は `mcs` でコンパイルして `mono` で実行するので、
+そのうえで採点 (`Ctrl+Shift+B`) は `mcs` でコンパイルして `mono` で実行するので、
 判定結果は paiza と同じです。
 
 常駐タスクについて 2 点:
