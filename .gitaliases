@@ -1,0 +1,18 @@
+# このリポジトリ専用の git エイリアス。
+#
+# git のエイリアスは通常 .git/config に書くが、あれは git の管理対象外なので
+# push しても他の人には見えない。そこでこのファイルに定義を置き、
+# .git/config から include で読み込む形にしている。
+#   → 定義はリポジトリに入る (見える / push される)
+#   → 有効化するかは各自の .git/config 次第 (勝手には効かない)
+#
+# clone した後に有効化する場合はこの 1 行だけ:
+#   git config --local include.path ../.gitaliases
+
+[alias]
+	# 1 問解いたら add / commit / push をまとめてやる。
+	#   git acp            -> コミットメッセージは "practice"
+	#   git acp "解いた"    -> メッセージを指定
+	# 新しく作ったブランチで初回だけは upstream が無くて失敗するので、
+	# その時は git push -u origin HEAD を一度打つ。
+	acp = "!f() { git add -A && git commit -m \"${1:-practice}\" && git push; }; f"

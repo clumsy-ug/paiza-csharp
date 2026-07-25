@@ -24,7 +24,9 @@
     "editor.defaultFormatter": "ms-dotnettools.csharp",
     "editor.formatOnSave": true,
     "editor.tabSize": 4,
-    "editor.insertSpaces": true
+    "editor.insertSpaces": true,
+    // rr / ww のスニペットを候補の先頭に出す（Enter でそのまま確定できるように）
+    "editor.snippetSuggestions": "top"
   },
 
   // ---- ノイズを消す --------------------------------------------------------
