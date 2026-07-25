@@ -32,11 +32,15 @@
   // ---- ノイズを消す --------------------------------------------------------
   "files.exclude": {
     "**/bin": true,
-    "**/obj": true
+    "**/obj": true,
+    // VS Code の既定で隠れている .git を表示する
+    "**/.git": false
   },
   "search.exclude": {
     "**/bin": true,
-    "**/obj": true
+    "**/obj": true,
+    // 表示はするが検索対象には入れない
+    "**/.git": true
   },
   "files.encoding": "utf8",
   "debug.internalConsoleOptions": "neverOpen",
