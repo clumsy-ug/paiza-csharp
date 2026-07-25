@@ -1,7 +1,4 @@
 {
-	// このワークスペースでのみ有効なスニペット。
-	// .vscode\ に置いた *.code-snippets は VS Code がフォルダ単位で読み込むので、
-	// 他のプロジェクトには影響しない。
 	"Console.ReadLine": {
 		"scope": "csharp",
 		"prefix": "rr",
