@@ -11,5 +11,6 @@
     <Project Path="problems/004_文字列_paiza_を出力してください/004_文字列_paiza_を出力してください.csproj" />
     <Project Path="problems/005_2_つの文字列を出力/005_2_つの文字列を出力.csproj" />
     <Project Path="problems/006_1_行の出力/006_1_行の出力.csproj" />
+    <Project Path="problems/007_3_行の出力/007_3_行の出力.csproj" />
   </Folder>
 </Solution>
