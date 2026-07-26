@@ -4,3 +4,4 @@ obj/
 .mcs-cache/
 *.user
 *.suo
+memo.practice.cs
