@@ -12,5 +12,6 @@
     <Project Path="problems/005_2_つの文字列を出力/005_2_つの文字列を出力.csproj" />
     <Project Path="problems/006_1_行の出力/006_1_行の出力.csproj" />
     <Project Path="problems/007_3_行の出力/007_3_行の出力.csproj" />
+    <Project Path="problems/008_B136：チョコのお返し/008_B136：チョコのお返し.csproj" />
   </Folder>
 </Solution>
