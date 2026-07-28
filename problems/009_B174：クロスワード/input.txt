@@ -1,0 +1,8 @@
+6 6
+6
+1 4 0 gloves
+1 6 0 world
+2 2 1 hello
+2 2 0 hedge
+4 2 1 devil
+6 1 1 sense
