@@ -38,6 +38,19 @@ code .
 { "key": "ctrl+enter", "command": "workbench.action.tasks.build", "when": "editorTextFocus" }
 ```
 
+採点はせず `Console.WriteLine` の結果だけを見たいときのために、
+「実行: 出力だけ見る (判定なし)」というタスクも用意してあります。
+`expected*.txt` との比較も `=== 問題名 ===` のような飾りも出さず、プログラムの出力をそのまま流します。
+
+```json
+{
+  "key": "ctrl+alt+enter",
+  "command": "workbench.action.tasks.runTask",
+  "args": "実行: 出力だけ見る (判定なし)",
+  "when": "editorTextFocus"
+}
+```
+
 保存時の `mcs` チェックを有効にするため、自動タスクを許可します。
 
 1. `Ctrl+Shift+P` でコマンドパレットを開く

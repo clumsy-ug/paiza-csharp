@@ -26,11 +26,25 @@ param(
     # expected*.txt との比較をしない
     [switch]$NoCompare,
 
+    # 判定も装飾もせず、プログラムの出力だけをそのまま出す (Console.WriteLine のデバッグ用)
+    [switch]$OutputOnly,
+
     # Mono ではなく .NET で実行する
     [switch]$UseDotnet
 )
 
 $ErrorActionPreference = 'Stop'
+
+# ---- 文字化け対策 ----------------------------------------------------------
+# 日本語 Windows のコンソールは既定が CP932 だが、VS Code のターミナルは常に
+# UTF-8 として解釈し、mono/mcs も UTF-8 で出力する。合わせておかないと
+# 日本語が化ける。子プロセスの stdout/stdin の解釈もこの設定で決まる。
+try { [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false) } catch { }
+try { [Console]::InputEncoding  = [System.Text.UTF8Encoding]::new($false) } catch { }
+$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+
+# 出力だけ見たいときは判定もしない
+if ($OutputOnly) { $NoCompare = $true }
 $root        = Split-Path -Parent $PSScriptRoot
 $problemsDir = Join-Path $root 'problems'
 
@@ -90,7 +104,7 @@ if (-not $dir) {
 $source = Join-Path $dir 'Program.cs'
 if (-not (Test-Path -LiteralPath $source)) { throw "Program.cs が見つかりません: $dir" }
 
-Write-Host "=== $(Split-Path -Leaf $dir) ===" -ForegroundColor Cyan
+if (-not $OutputOnly) { Write-Host "=== $(Split-Path -Leaf $dir) ===" -ForegroundColor Cyan }
 
 # ---- コンパイル ------------------------------------------------------------
 # $cmd + $cmdArgs で実行する形に揃える
@@ -116,7 +130,7 @@ if ($mcs -and $mono) {
 
     $cmd     = $mono
     $cmdArgs = @($exe)
-    Write-Host "コンパイル: mcs / 実行: mono (paiza と同じ)" -ForegroundColor DarkGray
+    if (-not $OutputOnly) { Write-Host "コンパイル: mcs / 実行: mono (paiza と同じ)" -ForegroundColor DarkGray }
 } else {
     # フォールバック: .NET でビルドして実行する
     if (-not $UseDotnet) {
@@ -142,7 +156,7 @@ if ($mcs -and $mono) {
 
     # LocalRunner による input.txt の読み込みを止め、標準入力はこちらから渡す
     $usedEnv['PAIZA_STDIN'] = 'pipe'
-    Write-Host "コンパイル: Roslyn / 実行: .NET" -ForegroundColor DarkGray
+    if (-not $OutputOnly) { Write-Host "コンパイル: Roslyn / 実行: .NET" -ForegroundColor DarkGray }
 }
 
 # ---- 対話モード ------------------------------------------------------------
@@ -160,7 +174,7 @@ if ($Interactive) {
 # ---- テストケース (input.txt / input2.txt ... と expected*.txt の対) --------
 $inputs = @(Get-ChildItem -LiteralPath $dir -Filter 'input*.txt' | Sort-Object Name)
 if ($inputs.Count -eq 0) {
-    Write-Host "input*.txt がないので、入力なしで実行します。" -ForegroundColor DarkGray
+    if (-not $OutputOnly) { Write-Host "input*.txt がないので、入力なしで実行します。" -ForegroundColor DarkGray }
     $inputs = @($null)
 }
 
@@ -178,8 +192,14 @@ try {
 
     foreach ($inp in $inputs) {
         $label = if ($inp) { $inp.Name } else { '(入力なし)' }
-        Write-Host ""
-        Write-Host "-- 入力: $label" -ForegroundColor DarkCyan
+        # 出力だけ見たいときは、入力が複数あるときだけ区切りを出す
+        if (-not $OutputOnly) {
+            Write-Host ""
+            Write-Host "-- 入力: $label" -ForegroundColor DarkCyan
+        } elseif ($inputs.Count -gt 1) {
+            Write-Host ""
+            Write-Host "-- $label" -ForegroundColor DarkCyan
+        }
 
         if ($inp) {
             Get-Content -LiteralPath $inp.FullName | & $cmd @cmdArgs > $outFile 2> $errFile
@@ -191,20 +211,31 @@ try {
         # mono は BOM だけの行を stderr に出すので、中身があるときだけ表示する
         $errRaw = if (Test-Path -LiteralPath $errFile) { (Get-Content -LiteralPath $errFile -Raw) -replace "`u{feff}", '' } else { '' }
         if (-not [string]::IsNullOrWhiteSpace($errRaw)) {
-            Write-Host "-- 標準エラー:" -ForegroundColor DarkYellow
-            $errRaw.TrimEnd() -split "`n" | ForEach-Object { Write-Host "  $($_.TrimEnd())" -ForegroundColor Yellow }
+            if (-not $OutputOnly) { Write-Host "-- 標準エラー:" -ForegroundColor DarkYellow }
+            $errRaw.TrimEnd() -split "`n" | ForEach-Object {
+                $prefix = if ($OutputOnly) { '' } else { '  ' }
+                Write-Host "$prefix$($_.TrimEnd())" -ForegroundColor Yellow
+            }
         }
 
         $actualRaw = if (Test-Path -LiteralPath $outFile) { Get-Content -LiteralPath $outFile -Raw } else { '' }
-        Write-Host "-- 出力:" -ForegroundColor DarkCyan
-        if ([string]::IsNullOrEmpty($actualRaw)) {
-            Write-Host "  (なし)" -ForegroundColor DarkGray
+        if ($OutputOnly) {
+            # デバッグ用。インデントも整形もせず、書いたとおりに出す
+            if (-not [string]::IsNullOrEmpty($actualRaw)) {
+                ($actualRaw -replace "`u{feff}", '').TrimEnd("`r", "`n") -split "`r?`n" | ForEach-Object { Write-Host $_ }
+            }
         } else {
-            (Normalize $actualRaw) | ForEach-Object { Write-Host "  $_" }
+            Write-Host "-- 出力:" -ForegroundColor DarkCyan
+            if ([string]::IsNullOrEmpty($actualRaw)) {
+                Write-Host "  (なし)" -ForegroundColor DarkGray
+            } else {
+                (Normalize $actualRaw) | ForEach-Object { Write-Host "  $_" }
+            }
         }
 
         if ($code -ne 0) {
-            Write-Host "  終了コード $code (実行時エラー)" -ForegroundColor Red
+            $prefix = if ($OutputOnly) { '' } else { '  ' }
+            Write-Host "$prefix終了コード $code (実行時エラー)" -ForegroundColor Red
             $allOk = $false
             continue
         }
@@ -249,6 +280,8 @@ try {
 } finally {
     foreach ($k in $savedEnv.Keys) { Set-Item -Path "env:$k" -Value $savedEnv[$k] }
 }
+
+if ($OutputOnly) { if ($allOk) { exit 0 } else { exit 1 } }
 
 Write-Host ""
 # 実行時エラーは expected の有無に関係なく失敗として扱う

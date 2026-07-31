@@ -23,6 +23,11 @@ param(
 )
 
 $ErrorActionPreference = 'Continue'
+
+# mcs のエラーメッセージは UTF-8。CP932 のままだと日本語ファイル名が化ける。
+try { [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false) } catch { }
+$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+
 $root        = Split-Path -Parent $PSScriptRoot
 $problemsDir = Join-Path $root 'problems'
 

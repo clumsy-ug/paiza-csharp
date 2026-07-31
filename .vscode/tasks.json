@@ -18,6 +18,21 @@
       "presentation": { "reveal": "always", "clear": true, "panel": "dedicated" }
     },
     {
+      // Ctrl+Alt+Enter。デバッグ用: 判定せず、プログラムの出力だけをそのまま出す。
+      "label": "実行: 出力だけ見る (判定なし)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-File", "${workspaceFolder}/tools/Run-Problem.ps1",
+        "${fileDirname}",
+        "-OutputOnly"
+      ],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "clear": true, "panel": "dedicated" }
+    },
+    {
       // F5 の preLaunchTask として使うビルドタスク
       "label": "build: 今開いている問題",
       "type": "process",
