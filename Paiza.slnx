@@ -15,5 +15,6 @@
     <Project Path="problems/008_B136：チョコのお返し/008_B136：チョコのお返し.csproj" />
     <Project Path="problems/009_B174：クロスワード/009_B174：クロスワード.csproj" />
     <Project Path="problems/010_B157：節約魂/010_B157：節約魂.csproj" />
+    <Project Path="problems/011_B145：ビンゴゲームの判定/011_B145：ビンゴゲームの判定.csproj" />
   </Folder>
 </Solution>
