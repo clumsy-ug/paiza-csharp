@@ -17,5 +17,6 @@
     <Project Path="problems/010_B157：節約魂/010_B157：節約魂.csproj" />
     <Project Path="problems/011_B145：ビンゴゲームの判定/011_B145：ビンゴゲームの判定.csproj" />
     <Project Path="problems/012_B155：スタンプアート/012_B155：スタンプアート.csproj" />
+    <Project Path="problems/013_B138：ドーナツ/013_B138：ドーナツ.csproj" />
   </Folder>
 </Solution>
