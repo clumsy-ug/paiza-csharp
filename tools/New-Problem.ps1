@@ -3,8 +3,9 @@
     新しい問題フォルダを作って、ソリューションに追加します。
 
 .EXAMPLE
-    .\tools\New-Problem.ps1 sum_of_array      # → problems\004_sum_of_array
-    .\tools\New-Problem.ps1 010_my_problem    # 番号を自分で付けてもOK
+    .\tools\New-Problem.ps1 sum_of_array          # → problems\004_sum_of_array
+    .\tools\New-Problem.ps1 010_my_problem        # 番号を自分で付けてもOK
+    .\tools\New-Problem.ps1 "STEP: 1 文字の出力"  # → problems\005_STEP：1_文字の出力
 #>
 [CmdletBinding()]
 param(
@@ -27,6 +28,9 @@ $Name = $Name.Trim()
 if ([string]::IsNullOrWhiteSpace($Name)) {
     throw "問題名を指定してください。"
 }
+# paiza の問題名に出てくる半角コロンはパスに使えないので、全角に置き換える
+# ("STEP: 1" → "STEP：1")
+$Name = $Name -replace ':\s*', '：'
 # 空白は _ に置き換える（コマンドラインで扱いづらいため）
 $Name = $Name -replace '\s+', '_'
 
@@ -61,7 +65,7 @@ if (Test-Path -LiteralPath $dir) { throw "もう存在します: $dir" }
 # ディレクトリ作成もコピーもリテラル指定で行う
 [System.IO.Directory]::CreateDirectory($dir) | Out-Null
 
-foreach ($f in @('Program.cs', 'input.txt', 'expected.txt', 'memo.md')) {
+foreach ($f in @('Program.cs', 'input.txt', 'expected.txt', 'input2.txt', 'expected2.txt', 'memo.md')) {
     Copy-Item -LiteralPath (Join-Path $templateDir $f) -Destination $dir
 }
 
@@ -87,6 +91,7 @@ Write-Host ""
 Write-Host "次にやること:" -ForegroundColor Cyan
 Write-Host "  1. problems\$Name\input.txt    に問題の入力例を貼る"
 Write-Host "  2. problems\$Name\expected.txt に期待する出力例を貼る"
+Write-Host "     (入力例2があれば input2.txt / expected2.txt にも貼る。無ければ空のままでよい)"
 Write-Host "  3. problems\$Name\Program.cs   を書く"
 Write-Host "  4. Program.cs を開いた状態で Ctrl+Shift+B で採点"
 
