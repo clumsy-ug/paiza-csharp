@@ -8,6 +8,9 @@ trim_trailing_whitespace = true
 [*.cs]
 indent_style = space
 indent_size = 4
+# 保存時に空白だけの行が空行にされると、そこに合わせたインデントが消えて
+# カーソルが 0 列目に飛ぶので、トリムはしない
+trim_trailing_whitespace = false
 
 # paiza に貼り付ける前提なので、var への書き換え提案は出さない
 csharp_style_var_for_built_in_types = false:none
