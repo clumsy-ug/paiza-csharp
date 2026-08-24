@@ -14,8 +14,14 @@ class Program
         int h = int.Parse(arr2[0]);  // h行
         int w = int.Parse(arr2[1]);  // w列
 
-        int[,] matrix = new int[h, w];
+        // 収穫回数初期化
         Dictionary<int, int> cropsCounts = new Dictionary<int, int>();  // key: crops種類  value: そのcropsの収穫済個数
+        for (int i = 1; i <= m; i++)
+        {
+            cropsCounts[i] = 0;
+        }
+        // 畑の状態
+        int[,] matrix = new int[h, w];
         for (int i = 0; i < n; i++)
         {
             string[] arr3 =  Console.ReadLine().Split(" ");
@@ -29,7 +35,6 @@ class Program
             {
                 for (int c = startCol; c < endCol; c++)
                 {
-                    // Console.WriteLine($"matrix[{r}, {c}]: {matrix[r, c]}");
                     if (matrix[r, c] != 0)
                     {
                         int nowCrops = matrix[r, c];
@@ -38,7 +43,6 @@ class Program
                     }
 
                     matrix[r, c] = crops;
-                    // Console.WriteLine($"今のmatrix[{r}, {c}]: {matrix[r, c]}");
                 }
             }
         }
