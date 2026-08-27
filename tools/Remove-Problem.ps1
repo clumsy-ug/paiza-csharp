@@ -34,6 +34,9 @@ function Resolve-ProblemDir([string]$name) {
         return (Resolve-Path -LiteralPath $name).Path
     }
 
+    # New-Problem と同じ正規化 (paiza の問題名をそのまま貼っても見つかるように)
+    $name = $name -replace ':\s*', '：' -replace '\s+', '_'
+
     $all = Get-ChildItem -LiteralPath $problemsDir -Directory
     $hit = @($all | Where-Object { $_.Name -eq $name })
     if ($hit.Count -eq 0) { $hit = @($all | Where-Object { $_.Name -like "*$name*" }) }
@@ -64,7 +67,7 @@ if (Test-Path -LiteralPath $source) {
     $lines = @(Get-Content -LiteralPath $source).Count
     Write-Host "  Program.cs ... $lines 行" -ForegroundColor DarkGray
 }
-foreach ($f in @('input.txt', 'expected.txt', 'memo.md')) {
+foreach ($f in @('input.txt', 'expected.txt', 'input2.txt', 'expected2.txt', 'memo.md')) {
     $p = Join-Path $dir $f
     if (Test-Path -LiteralPath $p) {
         $len = (Get-Item -LiteralPath $p).Length

@@ -56,6 +56,9 @@ function Resolve-ProblemDir([string]$name) {
         return (Resolve-Path -LiteralPath $name).Path
     }
 
+    # New-Problem と同じ正規化 (paiza の問題名をそのまま貼っても見つかるように)
+    $name = $name -replace ':\s*', '：' -replace '\s+', '_'
+
     $all = Get-ChildItem -LiteralPath $problemsDir -Directory
     $hit = @($all | Where-Object { $_.Name -eq $name })
     if ($hit.Count -eq 0) { $hit = @($all | Where-Object { $_.Name -like "*$name*" }) }
@@ -191,6 +194,21 @@ try {
     foreach ($k in $usedEnv.Keys) { Set-Item -Path "env:$k" -Value $usedEnv[$k] }
 
     foreach ($inp in $inputs) {
+        # New-Problem は予備の input2.txt / expected2.txt を空で用意する。
+        # 両方とも空のままの対は「使っていないテストケース」なので実行しない。
+        if ($inp) {
+            $suffix       = $inp.BaseName -replace '^input', ''
+            $expectedPath = Join-Path $dir "expected$suffix.txt"
+            $inpEmpty = [string]::IsNullOrWhiteSpace((Get-Content -LiteralPath $inp.FullName -Raw))
+            $expEmpty = -not (Test-Path -LiteralPath $expectedPath) -or
+                        [string]::IsNullOrWhiteSpace((Get-Content -LiteralPath $expectedPath -Raw))
+            if ($inpEmpty -and $expEmpty) {
+                Write-Host ""
+                Write-Host "-- 入力: $($inp.Name) は空なのでスキップ" -ForegroundColor DarkGray
+                continue
+            }
+        }
+
         $label = if ($inp) { $inp.Name } else { '(入力なし)' }
         # 出力だけ見たいときは、入力が複数あるときだけ区切りを出す
         if (-not $OutputOnly) {
@@ -245,14 +263,16 @@ try {
         # input.txt -> expected.txt / input2.txt -> expected2.txt
         $suffix       = if ($inp) { $inp.BaseName -replace '^input', '' } else { '' }
         $expectedPath = Join-Path $dir "expected$suffix.txt"
-        if (-not (Test-Path -LiteralPath $expectedPath)) {
-            Write-Host "  (expected$suffix.txt がないので判定なし)" -ForegroundColor DarkGray
+        $expectedRaw  = if (Test-Path -LiteralPath $expectedPath) { Get-Content -LiteralPath $expectedPath -Raw } else { $null }
+        if ([string]::IsNullOrWhiteSpace($expectedRaw)) {
+            # ファイルが無い場合も、テンプレートのまま空の場合も判定しない
+            Write-Host "  (expected$suffix.txt が空か存在しないので判定なし)" -ForegroundColor DarkGray
             continue
         }
 
         $anyCheck = $true
         # @() は必須: 1 行だけのとき、配列でなく文字列になって文字単位比較になるのを防ぐ
-        $expected = @(Normalize (Get-Content -LiteralPath $expectedPath -Raw))
+        $expected = @(Normalize $expectedRaw)
         $actual   = @(Normalize $actualRaw)
 
         $same = $expected.Count -eq $actual.Count
