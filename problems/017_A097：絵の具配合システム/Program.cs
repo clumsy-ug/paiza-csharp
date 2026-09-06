@@ -22,36 +22,7 @@ class Program
            blues.Add(int.Parse(line[2]));
         }
 
-        // ---- 元のコード (先頭 k 個しか試していないので誤り) ----
-        // int redsSum = reds[0];
-        // int greensSum = greens[0];
-        // int bluesSum = blues[0];
-        // for (int i = 1; i < N; i++)
-        // {
-        //     int nowCount = i + 1;
-        //
-        //     // int同士の除算は自動で小数点切り捨てされるのでこれでOK
-        //     redsSum += reds[i];
-        //     int nowRedsAverage = redsSum / nowCount;
-        //
-        //     greensSum += greens[i];
-        //     int nowGreensAverage = greensSum / nowCount;
-        //
-        //     bluesSum += blues[i];
-        //     int nowBluesAverage = bluesSum / nowCount;
-        //
-        //     if (
-        //         nowRedsAverage == T_R &&
-        //         nowGreensAverage == T_G &&
-        //         nowBluesAverage == T_B
-        //     )
-        //     {
-        //         Console.WriteLine("Yes");
-        //         return;
-        //     }
-        // }
-
-        // ---- 修正後 (bit 全探索) ----
+        // bit全探索
         for (int mask = 1; mask < (1 << N); mask++)
         {
             int count = 0;
@@ -71,9 +42,9 @@ class Program
             }
 
             if (
-                redsSum / count == T_R &&
-                greensSum / count == T_G &&
-                bluesSum / count == T_B
+                    redsSum / count == T_R &&
+                    greensSum / count == T_G &&
+                    bluesSum / count == T_B
             )
             {
                 Console.WriteLine("Yes");
