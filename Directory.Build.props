@@ -28,7 +28,7 @@
 
     <!--
       ローカル実行時のエントリポイントを LocalRunner に差し替える。
-      LocalRunner が input.txt を標準入力に流し込んでから Main を呼ぶので、
+      LocalRunner が input*.txt を順に標準入力に流し込んで Main を呼ぶので、
       Program.cs にローカル専用のコードを入れずに済む。
     -->
     <StartupObject>LocalRunner</StartupObject>
