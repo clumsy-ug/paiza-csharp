@@ -2,8 +2,9 @@
   "version": "0.2.0",
   "configurations": [
     {
-      // 開いている Program.cs の問題を、同じフォルダの input.txt を標準入力にして実行
-      "name": "今開いている問題を実行 (input.txt)",
+      // 開いている Program.cs の問題を、同じフォルダの input.txt / input2.txt / ... を順に標準入力にして実行
+      // (ケースごとに --- input.txt / expected.txt --- の見出しが付く)
+      "name": "今開いている問題を実行 (input*.txt 全ケース)",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build: 今開いている問題",
