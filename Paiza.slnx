@@ -21,5 +21,6 @@
     <Project Path="problems/014_B143：じゃんけん列車/014_B143：じゃんけん列車.csproj" />
     <Project Path="problems/015_B129：n毛作/015_B129：n毛作.csproj" />
     <Project Path="problems/016_B161：射撃訓練/016_B161：射撃訓練.csproj" />
+    <Project Path="problems/017_A097：絵の具配合システム/017_A097：絵の具配合システム.csproj" />
   </Folder>
 </Solution>
