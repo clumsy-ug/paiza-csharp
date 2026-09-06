@@ -175,9 +175,34 @@ if ($Interactive) {
 }
 
 # ---- テストケース (input.txt / input2.txt ... と expected*.txt の対) --------
-$inputs = @(Get-ChildItem -LiteralPath $dir -Filter 'input*.txt' | Sort-Object Name)
+# New-Problem は input.txt〜input3.txt / expected.txt〜expected3.txt を全部空で用意する。
+# 入力も期待出力も空のままの対は「使っていないテストケース」なので、実行も判定もしない
+# (入力例が 2 つしかない問題で input3.txt / expected3.txt が空でも NG にならない)。
+# 片方だけに中身がある対は実行する (入力なしの問題は input.txt が空で expected.txt だけ埋まる)。
+function Test-BlankFile([string]$path) {
+    if (-not (Test-Path -LiteralPath $path)) { return $true }
+    return [string]::IsNullOrWhiteSpace((Get-Content -LiteralPath $path -Raw))
+}
+
+$inputs  = @()
+$skipped = @()
+foreach ($inp in @(Get-ChildItem -LiteralPath $dir -Filter 'input*.txt' | Sort-Object Name)) {
+    $suffix       = $inp.BaseName -replace '^input', ''
+    $expectedPath = Join-Path $dir "expected$suffix.txt"
+    if ((Test-BlankFile $inp.FullName) -and (Test-BlankFile $expectedPath)) {
+        $skipped += $inp.Name
+    } else {
+        $inputs += $inp
+    }
+}
+if ($skipped.Count -gt 0 -and -not $OutputOnly) {
+    Write-Host "スキップ (入力も期待出力も空): $($skipped -join ', ')" -ForegroundColor DarkGray
+}
 if ($inputs.Count -eq 0) {
-    if (-not $OutputOnly) { Write-Host "input*.txt がないので、入力なしで実行します。" -ForegroundColor DarkGray }
+    if (-not $OutputOnly) {
+        $why = if ($skipped.Count -gt 0) { "使えるテストケースがないので" } else { "input*.txt がないので" }
+        Write-Host "$why、入力なしで実行します。" -ForegroundColor DarkGray
+    }
     $inputs = @($null)
 }
 
@@ -194,21 +219,6 @@ try {
     foreach ($k in $usedEnv.Keys) { Set-Item -Path "env:$k" -Value $usedEnv[$k] }
 
     foreach ($inp in $inputs) {
-        # New-Problem は予備の input2.txt / expected2.txt を空で用意する。
-        # 両方とも空のままの対は「使っていないテストケース」なので実行しない。
-        if ($inp) {
-            $suffix       = $inp.BaseName -replace '^input', ''
-            $expectedPath = Join-Path $dir "expected$suffix.txt"
-            $inpEmpty = [string]::IsNullOrWhiteSpace((Get-Content -LiteralPath $inp.FullName -Raw))
-            $expEmpty = -not (Test-Path -LiteralPath $expectedPath) -or
-                        [string]::IsNullOrWhiteSpace((Get-Content -LiteralPath $expectedPath -Raw))
-            if ($inpEmpty -and $expEmpty) {
-                Write-Host ""
-                Write-Host "-- 入力: $($inp.Name) は空なのでスキップ" -ForegroundColor DarkGray
-                continue
-            }
-        }
-
         $label = if ($inp) { $inp.Name } else { '(入力なし)' }
         # 出力だけ見たいときは、入力が複数あるときだけ区切りを出す
         if (-not $OutputOnly) {
