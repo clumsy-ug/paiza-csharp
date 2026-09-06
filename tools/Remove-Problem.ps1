@@ -67,7 +67,7 @@ if (Test-Path -LiteralPath $source) {
     $lines = @(Get-Content -LiteralPath $source).Count
     Write-Host "  Program.cs ... $lines 行" -ForegroundColor DarkGray
 }
-foreach ($f in @('input.txt', 'expected.txt', 'input2.txt', 'expected2.txt', 'memo.md')) {
+foreach ($f in @('input.txt', 'expected.txt', 'input2.txt', 'expected2.txt', 'input3.txt', 'expected3.txt', 'memo.md')) {
     $p = Join-Path $dir $f
     if (Test-Path -LiteralPath $p) {
         $len = (Get-Item -LiteralPath $p).Length
