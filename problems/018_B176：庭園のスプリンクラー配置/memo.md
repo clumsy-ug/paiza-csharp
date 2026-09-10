@@ -1,0 +1,645 @@
+# 問題メモ
+
+- 問題URL:
+- ランク:
+- 制限: 5.0 秒 / 512 MB
+
+以下、問題ページのソースをコピペ。
+＝＝＝
+
+
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+
+<meta charset="utf-8">
+<title>B176:庭園のスプリンクラー配置の問題に再チャレンジ！ | プログラミング学習サイト【paizaラーニング】</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="description" content="B176:庭園のスプリンクラー配置の問題の再チャレンジページです。GLHF｜環境構築不要、5秒で始められるプログラミング学習サイト【paizaラーニング】">
+<meta property="og:title" content="B176:庭園のスプリンクラー配置の問題に再チャレンジ！">
+<meta property="og:image" content="https://paiza.jp/images/ogp/og_paiza_works.png">
+<meta property="og:type" content="company">
+<meta property="og:url" content="https://paiza.jp/challenges/904/retry">
+<meta property="og:site_name" content="B176:庭園のスプリンクラー配置の問題に再チャレンジ！">
+<meta property="og:description" content="B176:庭園のスプリンクラー配置の問題の再チャレンジページです。GLHF｜環境構築不要、5秒で始められるプログラミング学習サイト【paizaラーニング】">
+<meta property="og:locale" content="ja_JP">
+<meta property="fb:app_id" content="896098410425951">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="Copyright Paiza, Inc. All rights reserved.">
+<meta name="robots" content="index, follow">
+<link href='/apple-touch-icon.png' rel='apple-touch-icon' sizes='192x192'>
+<meta content='paiza' name='application-name'>
+<meta content='/small.jpg' name='msapplication-square70x70logo'>
+<meta content='/medium.jpg' name='msapplication-square150x150logo'>
+<meta content='/wide.jpg' name='msapplication-wide310x150logo'>
+<meta content='/large.jpg' name='msapplication-square310x310logo'>
+<meta content='width=1024' name='viewport'>
+<link rel="stylesheet" href="https://paiza.jp/assets/common/reset-9f56b21aeebbed9efcdd6fd346f954c6f64ba5792ecec8f465aa08db199a6a7a.css" media="screen,print" />
+<link rel="stylesheet" href="https://paiza.jp/assets/init_bootstrap-335151b0a77f3849dd04e8a9699d4fe5724000a863b18874858cf76b5285f5f7.css" media="screen,print" />
+<link rel="stylesheet" href="https://paiza.jp/assets/common/application-c6da67b46ce620bd6b9f55861026e7ac704bed186527a99e84d46e752242248e.css" media="all" />
+<link rel="stylesheet" href="https://paiza.jp/assets/common/colorbox-6d40c70f0b4f96d8e654bc874ef16e7735a244a38a1eab3b25764e0afa7f7c79.css" media="all" />
+<link rel="stylesheet" href="https://paiza.jp/assets/common/sweet-alert-fd2b8d44a6319116076cae8939b4c5f9effe17436629256da8564f8e09f3a9e6.css" media="all" />
+<link rel="stylesheet" href="https://paiza.jp/assets/application-9e5f57fd401428872aaf6b8362972dbbde53bff3added6b3f3bba091afdfeab3.css" media="all" />
+<link rel="stylesheet" href="https://paiza.jp/assets/deprecated_common-ee83625519b9f652c99ddfb4614f33ef16d080f5b8d09f00ead3bfef5fa75bdb.css" media="screen,print" />
+<link rel="stylesheet" href="https://paiza.jp/assets/common/print-79636e660e60e116e87b936a6adc4fcb3f3110d99a4ac06ed40ebeabf7320280.css" media="print" />
+<script src="https://paiza.jp/assets/application-3539ed36e27d03f88b560aa3df1772ff4284285e332bcd6aa5e7d67f81ec7840.js"></script>
+<script src="https://paiza.jp/assets/common/rollover-e5b650c5608a186aed955ccfcf537e5373745e356de733ab3c8459d4e19fc297.js" defer="defer"></script>
+<script src="https://paiza.jp/assets/common/social_button-3609608d2fa7bd3cde91854101df1ce31b5b834b254b924cec1fcea28b2aa5f9.js" async="async"></script>
+<script src="https://paiza.jp/assets/common/easing_scroll-b07c5164dbd1ab0d89ac9f3cf99a3f3d819817df6f77f315b63e13b4a1f44ad7.js" defer="defer"></script>
+<link rel="stylesheet" href="https://paiza.jp/assets/problem-eca7bd8057e4e3ddf2b4aad5641151079888ba5f326c41d540999f6a105f8844.css" media="screen,print" />
+<link rel="stylesheet" href="https://paiza.jp/assets/challenges-a2b92d090ed4f0c6f56bc8d19fb1c49ad2d6d7c16430ca7f1e1e34da61f5dce6.css" />
+<link rel="stylesheet" href="https://paiza.jp/assets/common/editor-f6a7169c2cd59d32f92702bb3a9f631737b4a8d1a04562902ef558b7191d13de.css" />
+<link rel="stylesheet" href="https://paiza.jp/assets/skillcheck/sample-122f945221f40ef12a168d6253b6ad56914cbb2aaf0d808cebf566d9cf0c643e.css" />
+<script src="https://cdn-paiza.paiza.jp/packs/vendor/deprecated/ace.ad29aaa114f561ef.js" defer="defer"></script>
+<script src="https://paiza.jp/assets/challenges/editor-bcfc24a5bc89e34d147a09e3582fa349d02ac5cae3de105af24499248b84b257.js" defer="defer"></script>
+<script src="https://cdn-paiza.paiza.jp/packs/partials/commons/challenge_compile_and_test.2e7a040705eb71c7.js" defer="defer"></script>
+<script src="https://cdn-paiza.paiza.jp/packs/partials/commons/challenge_code_submit.3f70cefbd215ae02.js" defer="defer"></script>
+
+<link rel="stylesheet" href="https://cdn-paiza.paiza.jp/packs/fonts.6c4a7066673569c2.css" />
+<link rel="stylesheet" href="https://cdn-paiza.paiza.jp/packs/backward_compatible_application.da99c1476338ca58.css" />
+<link rel="stylesheet" href="https://cdn-paiza.paiza.jp/packs/partials/commons/flash_alert.f86b83a2dd99917e.css" />
+<script src="https://cdn-paiza.paiza.jp/packs/backward_compatible_application.ef46db3751d8e999.js" defer="defer"></script>
+<style>
+  html {
+    font-size: 16px;
+  }
+  body {
+    font-size: 87.5%;
+  }
+</style>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="jt88vnDC5RKoGb_vAnBSLxsPm1uVDmgrO3fegzMGIweDvJKuBpCHil-kIFuWpREjvEwb5VrA2jK8UTQI2FpZ2A" />
+<script>
+  dataLayer = [];
+  if (location.pathname.startsWith('/business')) {
+    analytics_properties = {
+      'business_user_id': ''
+    };
+  } else {
+    analytics_properties = {
+      'uuid': '6fe32406-f3b5-4c11-9779-76aea9d9ffeb',
+      'user_status': '1',
+      'status': '2000',
+      'ga_status': '2000',
+      'paiza_rank': '1802',
+      'registered_service': 'career',
+      'max_skillpr_years_of_experience': '2402',
+      'expected_date_of_graduation': '2025-03-31',
+      'school_type_id': '10620',
+      'intent_job_change_id': '3201',
+      'intent_to_be_engineer_id': '12100'
+    };
+  }
+  
+  dataLayer.push(Object.assign({}, analytics_properties));
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TQKX7WN');</script>
+<!-- End Google Tag Manager -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-42027263-1', 'auto');
+ga('require', 'GTM-544Q3L4');
+ga('set', 'userId', '6fe32406-f3b5-4c11-9779-76aea9d9ffeb');
+ga('set', 'dimension1', '1');
+ga('set', 'dimension2', '2000');
+ga('set', 'dimension3', '1802');
+ga('set', 'dimension4', 'career');
+ga('send', 'pageview');
+</script>
+<script>
+  custom_dimensions = Object.assign({}, analytics_properties);
+  custom_dimensions['user_properties'] = Object.assign({}, custom_dimensions);
+  custom_dimensions['user_id'] = custom_dimensions['uuid'];
+</script>
+<script async='' src='https://www.googletagmanager.com/gtag/js?id=G-X4K98BR9EP'></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-X4K98BR9EP', custom_dimensions);
+</script>
+<link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
+<script type='text/javascript' id='vwoCode'>
+window._vwo_code || (function() {
+var account_id=804902,
+version=2.0,
+settings_tolerance=2000,
+hide_element='body',
+hide_element_style = 'opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important',
+<!-- * DO NOT EDIT BELOW THIS LINE */ -->
+f=false,w=window,d=document,v=d.querySelector('#vwoCode'),cK='_vwo_'+account_id+'_settings',cc={};try{var c=JSON.parse(localStorage.getItem('_vwo_'+account_id+'_config'));cc=c&&typeof c==='object'?c:{}}catch(e){}var stT=cc.stT==='session'?w.sessionStorage:w.localStorage;code={use_existing_jquery:function(){return typeof use_existing_jquery!=='undefined'?use_existing_jquery:undefined},library_tolerance:function(){return typeof library_tolerance!=='undefined'?library_tolerance:undefined},settings_tolerance:function(){return cc.sT||settings_tolerance},hide_element_style:function(){return'{'+(cc.hES||hide_element_style)+'}'},hide_element:function(){return typeof cc.hE==='string'?cc.hE:hide_element},getVersion:function(){return version},finish:function(){if(!f){f=true;var e=d.getElementById('_vis_opt_path_hides');if(e)e.parentNode.removeChild(e)}},finished:function(){return f},load:function(e){var t=this.getSettings(),n=d.createElement('script'),i=this;if(t){n.textContent=t;d.getElementsByTagName('head')[0].appendChild(n);if(!w.VWO||VWO.caE){stT.removeItem(cK);i.load(e)}}else{n.fetchPriority='high';n.src=e;n.type='text/javascript';n.onerror=function(){_vwo_code.finish()};d.getElementsByTagName('head')[0].appendChild(n)}},getSettings:function(){try{var e=stT.getItem(cK);if(!e){return}e=JSON.parse(e);if(Date.now()>e.e){stT.removeItem(cK);return}return e.s}catch(e){return}},init:function(){if(d.URL.indexOf('__vwo_disable__')>-1)return;var e=this.settings_tolerance();w._vwo_settings_timer=setTimeout(function(){_vwo_code.finish();stT.removeItem(cK)},e);var t=d.currentScript,n=d.createElement('style'),i=this.hide_element(),r=t&&!t.async&&i?i+this.hide_element_style():'',c=d.getElementsByTagName('head')[0];n.setAttribute('id','_vis_opt_path_hides');v&&n.setAttribute('nonce',v.nonce);n.setAttribute('type','text/css');if(n.styleSheet)n.styleSheet.cssText=r;else n.appendChild(d.createTextNode(r));c.appendChild(n);this.load('https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&vn='+version)}};w._vwo_code=code;code.init();})();
+</script>
+<!-- End VWO Async SmartCode -->
+<!-- Optimize Next -->
+<script>(function(p,r,o,j,e,c,t,g){
+p['_'+t]={};g=r.createElement('script');g.src='https://www.googletagmanager.com/gtm.js?id=GTM-'+t;r[o].prepend(g);
+g=r.createElement('style');g.innerText='.'+e+t+'{visibility:hidden!important}';r[o].prepend(g);
+r[o][j].add(e+t);setTimeout(function(){if(r[o][j].contains(e+t)){r[o][j].remove(e+t);p['_'+t]=0}},c)
+})(window,document,'documentElement','classList','loading',2000,'WTZZHVXG')</script>
+<!-- End Optimize Next -->
+<script>
+  (function() {
+    this.gaq_push = function(args) {
+      var hit_type, mkargs;
+      if (args == null) {
+        args = [];
+      }
+      mkargs = {};
+      hit_type = '';
+      args.forEach(function(n, i) {
+        if (i === 0) {
+          if (n === '_trackEvent') {
+            hit_type = 'event';
+          } else if (n === '_trackPageview') {
+            hit_type = 'pageview';
+          }
+          return mkargs.hitType = hit_type;
+        } else if (i === 1) {
+          if (hit_type === 'event') {
+            return mkargs.eventCategory = n.toString();
+          } else if (hit_type === 'pageview') {
+            return mkargs.page = n.toString();
+          }
+        } else if (i === 2) {
+          return mkargs.eventAction = n.toString();
+        } else if (i === 3) {
+          return mkargs.eventLabel = n.toString();
+        } else if (i === 4) {
+          return mkargs.eventValue = parseInt(n);
+        }
+      });
+      if (typeof ga !== "undefined" && ga !== null) {
+        return ga('send', mkargs);
+      } else {
+        return console.log(mkargs);
+      }
+    };
+  
+  }).call(this);
+</script>
+
+<script>
+(function(h,o,t,j,a,r){
+h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+h._hjSettings={hjid:841012,hjsv:6};
+a=o.getElementsByTagName('head')[0];
+r=o.createElement('script');r.async=1;
+r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+a.appendChild(r);
+})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+</head>
+<body class=''>
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+<iframe height='0' src='https://www.googletagmanager.com/ns.html?id=GTM-TQKX7WN' style='display:none;visibility:hidden' width='0'></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id='fb-root'></div>
+<script src="https://cdn-paiza.paiza.jp/packs/partials/headers/global_header.809849df5c62ad0a.js" defer="defer"></script>
+<link rel="stylesheet" href="https://cdn-paiza.paiza.jp/packs/partials/headers/global_header.16c5c12ddef8eebc.css" />
+<div data-display-menu='true' data-enable-learning-path='false' data-is-agent-scouts-badge-visible='false' data-is-bookmarks-badge-visible='true' data-is-display-scout-config='false' data-is-entries-badge-visible='false' data-is-messages-badge-visible='true' data-is-mypage-badge-visible='false' data-is-student='false' data-is-study-group-user='false' data-is-target-of-plan-after-graduation='false' data-logged-in='true' data-new-graduates-target-year='' id='js-react-global-header'></div>
+
+
+<noscript>
+<p style='text-align:center;'>javascriptを有効にして下さい。</p>
+</noscript>
+<div class='disnon' data-status='2000' id='user_info'></div>
+<div class='text-center pc-only' id='pagebody'>
+<style>
+  .d-problem__page-title {
+    padding: 5px 0 16px 66px;
+    background: url(/images/paiza_kun.gif) left top no-repeat;
+    position: relative;
+    margin: 0 0 20px;
+    color: #000;
+    font-size: 33px;
+    font-weight: bold;
+    line-height: 1.4; }
+    .d-problem__page-title:after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(to bottom, #175a6b, #29a1bf);
+      border-radius: 3px 3px; }
+  
+  .d-problem__alert {
+    font-weight: bold;
+    color: #df2020;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px; }
+  
+  .d-problem-content__background-side {
+    width: 964px;
+    background: url(/images/member/bg_04b.gif) repeat-y left top;
+    position: relative;
+    left: -2px; }
+  
+  .d-problem-content__background-top {
+    width: 100%;
+    background: url(/images/member/bg_04a.gif) no-repeat left top; }
+  
+  .d-problem-content__background-bottom {
+    width: 100%;
+    padding: 18px 0 15px 0;
+    background: url(/images/member/bg_04c.gif) no-repeat left bottom;
+    position: relative; }
+  
+  .d-problem-content__problem-title {
+    background-image: url(/images/member/bg_code2_01a.gif);
+    font-size: 128%;
+    font-weight: bold;
+    line-height: 50px;
+    color: #fff;
+    margin: 0 0 20px 0;
+    padding: 0 0 0 5px;
+    background-repeat: no-repeat;
+    background-position: left top;
+    position: relative;
+    left: -3px; }
+    .d-problem-content__problem-title:before {
+      display: table;
+      content: " "; }
+    .d-problem-content__problem-title:after {
+      display: table;
+      content: " ";
+      clear: both; }
+  
+  .d-problem-content__problem-title-background {
+    background-image: url(/images/member/bg_code2_01b.gif);
+    height: 53px;
+    padding: 0 110px 0 15px;
+    background-repeat: no-repeat;
+    background-position: right top;
+    display: block;
+    float: left; }
+</style>
+<textarea name="submit_code" id="submit_code" style="display: none">
+using System;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        // メモ
+        // 境界値チェック忘れずに：indexoutofrangeexceptionを防ぐ
+        // スプリンクラー自身のセルも水を撒く
+
+        string[] arr = Console.ReadLine().Split(&quot; &quot;);
+        int N = int.Parse(arr[0]);
+        int M = int.Parse(arr[1]);
+        int K = int.Parse(Console.ReadLine());
+
+        bool[,] garden = new bool[N, M];
+        for (int i = 0; i &lt; K; i++)
+        {
+            string[] rc = Console.ReadLine().Split(&quot; &quot;);
+            int sprinklerR = int.Parse(rc[0]) - 1;
+            int sprinklerC = int.Parse(rc[1]) - 1;
+
+            for (int gardenR = sprinklerR - 1; gardenR &lt;= sprinklerR + 1; gardenR++)
+            {
+                if (gardenR &lt; 0 || gardenR &gt;= N) continue;  // 行の境界値チェック
+
+                for (int gardenC = sprinklerC - 1; gardenC &lt;= sprinklerC + 1; gardenC++)
+                {
+                    if (gardenC &lt; 0 || gardenC &gt;= M) continue;  // 列の境界値チェック
+
+                    garden[gardenC, gardenR] = true;
+                }
+            }
+        }
+
+        // LINQを使わずカウントする場合
+        // int answer = 0;
+        // foreach (bool b in garden) if (b) answer++;
+        
+        // 二次元配列をシーケンスに平坦化してからLINQでカウント
+        int answer = garden.Cast&lt;bool&gt;().Count(el =&gt; el);
+        Console.WriteLine(answer);
+    }
+}
+</textarea>
+<input type="hidden" name="submit_programming_language_id" id="submit_programming_language_id" value="2307" autocomplete="off" />
+<input type="hidden" name="problem_rank_id" id="problem_rank_id" value="1802" autocomplete="off" />
+<div class='boxSkillcheck mb5'>
+<div class='d-problem'>
+<h1 class='d-problem__page-title'>再チャレンジ B176:庭園のスプリンクラー配置</h1>
+</div>
+<div id='tab-problem'>
+<div class='d-problem-content'>
+<div class='section3'>
+<div class='d-problem-content__background-top'>
+<div class='d-problem-content__background-bottom'>
+<h2 class='d-problem-content__problem-title code4'>
+<span class='d-problem-content__problem-title-background'>B176:庭園のスプリンクラー配置</span>
+</h2>
+<div class="inr1">
+  <p class="mb15">あなたは造園会社で働いており、お客様の庭園に自動散水システムを設置することになりました。庭園は長方形のグリッドとして表現され、各区画には花や芝生が植えられています。限られた予算内で効率的に水を撒くため、スプリンクラーの配置を最適化する必要があります。<br/>
+<br/>
+庭園は N 行 M 列のグリッドとして表されます。各スプリンクラーは、設置した位置とその周囲8マス（上下左右と斜め4方向）に水を撒きます。グリッドの端に設置した場合、存在しない区画には水は撒かれません。また、複数のスプリンクラーの散水範囲が重なっても問題ありません。<br/>
+<br/>
+K 個のスプリンクラーを設置する位置が与えられます。全てのスプリンクラーを設置した後、水が届く区画の総数を求めてください。同じ区画に複数のスプリンクラーから水が届いても、1 つの区画として数えます。<br/>
+<br/>
+入力例 1 の場合、次のようになります。<br/>
+<br/>
+<p><img alt="入力例 1" src="https://paiza.s3.amazonaws.com/problem/img/904/img.png" /></p>
+<br/>
+5×5 の庭園に 2 個のスプリンクラーを設置します。1 つ目のスプリンクラー (2, 2) は自身と周囲8マスの最大9区画に水を撒きます。2 つ目のスプリンクラー (3, 4) も同様に自身と周囲8マスに水を撒きます。重複を除いて、水が届く区画は合計 16 個となります。<br/>
+  </p>
+</div>
+<div class="inr2">
+  <div class="box2">
+    <dl class="txt1">
+    <dt class="icon1">評価ポイント</dt>
+    <dd>
+    10回のテストケースで、正答率、実行速度、メモリ消費量をはかり得点が決まります。<br />
+    より早い解答時間で提出したほうが得点が高くなります。
+    <ol>
+    <li>複数のテストケースで正しい出力がされるか評価（+50点）</li>
+    <li>解答までの速さ評価（+50点）</li>
+    </ol>
+    </dd>
+    </dl>
+  </div>
+  <div class="box3">
+    <dl class="txt1">
+    <dt class="icon2">入力される値</dt>
+    <dd>
+      <p>入力は以下のフォーマットで与えられます。</p>
+<pre><code>N M
+K
+R_1 C_1
+R_2 C_2
+...
+R_K C_K</code></pre>
+
+<ul>
+<li>・1 行目に庭園のサイズ N (行数) と M (列数) が空白区切りで与えられます。</li>
+<li>・2 行目にスプリンクラーの個数 K が与えられます。</li>
+<li>・続く K 行の i 行目 (1 ≦ i ≦ K) には、i 番目のスプリンクラーを設置する位置 (R_i, C_i) が空白区切りで与えられます。</li>
+<li>・入力は合計で K+2 行からなり、入力値最終行の末尾に改行が 1 つ入ります。</li>
+</ul>
+
+<br />
+             それぞれの値は文字列で標準入力から渡されます。<a class="targetBlank" href="/guide/samplecode.html" target="_blank">標準入力からの値取得方法はこちらをご確認ください</a><br />
+    </dd>
+    </dl>
+  </div>
+
+  <div class="box3">
+    <dl class="txt1">
+      <dt class="icon3">期待する出力</dt>
+    <dd>
+<p>水が届く区画の総数を出力してください。<br/>
+末尾に改行を入れ、余計な文字、空行を含んではいけません。<br/>
+</p>
+    </dd>
+    </dl>
+  </div>
+  <div class="box3">
+    <dl class="txt1">
+    <dt class="icon4">条件</dt>
+    <dd>
+        <p>すべてのテストケースにおいて、以下の条件をみたします。</p>
+<ul>
+<li>・1 ≦ N ≦ 50</li>
+<li>・1 ≦ M ≦ 50</li>
+<li>・1 ≦ K ≦ min(10, N × M)</li>
+<li>・1 ≦ R_i ≦ N</li>
+<li>・1 ≦ C_i ≦ M</li>
+<li>・同じ位置に複数のスプリンクラーは設置されない</li>
+</ul>
+</li>
+</dd>
+    </dl>
+  </div>
+
+</div>
+
+<div class='sample-container'>
+<div class="sample-content"><div class="sample-content__title">入力例1</div><pre class="sample-content__input"><code>5 5
+2
+2 2
+3 4
+</code></pre></div><div class="sample-content"><div class="sample-content__title">出力例1</div><pre class="sample-content__input"><code>16
+</code></pre></div>
+<div class="sample-content"><div class="sample-content__title">入力例2</div><pre class="sample-content__input"><code>3 4
+1
+2 2
+</code></pre></div><div class="sample-content"><div class="sample-content__title">出力例2</div><pre class="sample-content__input"><code>9
+</code></pre></div>
+<div class="sample-content"><div class="sample-content__title">入力例3</div><pre class="sample-content__input"><code>6 6
+3
+1 1
+3 3
+5 5
+</code></pre></div><div class="sample-content"><div class="sample-content__title">出力例3</div><pre class="sample-content__input"><code>20
+</code></pre></div>
+
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='boxEditor'>
+<div class='d-editor-guide-messages'>
+<div class='d-editor-guide-messages__row'>
+<span aria-hidden='true' class='d-editor-guide-messages__icon d-editor-guide-messages__icon--attention'></span>
+<div class='d-editor-guide-messages__description'>
+paizaでは提出されたコードが、AIや他者からヒント・解答を得て作成されたものでないことを常時監視しております。
+</div>
+</div>
+<div class='d-editor-guide-messages__row'>
+<span aria-hidden='true' class='d-editor-guide-messages__icon d-editor-guide-messages__icon--question'></span>
+<div class='d-editor-guide-messages__description'>
+<p style='color: #FF6600;'>複数のテストケースでテストしますので、動作確認用の入力例だけでなく入力値を変えてのデバッグをおすすめします。</p>
+<p>エディタが正常に動作しない場合はブラウザ拡張機能をすべて無効化してください。</p>
+<p>標準入力（「入力される値」の取得・処理）が分からない場合は、サンプルコードや動画解説をご参照ください。</p>
+<div style='margin-top: 10px;'>
+<div class='d-editor-guide-messages__guide'>
+<span aria-hidden='true' class='p-challenges-icon p-challenges-icon--arrow-circle-right'></span>
+<a target="_blank" rel="noopener" class="targetBlank" href="https://paizasupport.zendesk.com/hc/ja/articles/360038391912?parts=suppl-for-codearea&amp;paiza_rank=1802#section_lets_practice">標準入力に関する動画解説など（FAQ「標準入力・出力とはなんですか？」）</a>
+</div>
+<div class='d-editor-guide-messages__guide'>
+<span aria-hidden='true' class='p-challenges-icon p-challenges-icon--arrow-circle-right'></span>
+<a target="_blank" rel="noopener" class="targetBlank" href="/guide/samplecode">コードの評価方法やサンプルコード（「値取得・出力サンプルコード」）</a>
+</div>
+</div>
+</div>
+</div>
+<div class='d-editor-guide-messages__row'>
+<span aria-hidden='true' class='d-editor-guide-messages__icon d-editor-guide-messages__icon--gear'></span>
+<div class='d-editor-guide-messages__description'>
+実行環境については、
+<a target="_blank" href="/guide/language">各言語のバージョン、環境情報</a>
+をご参照ください。
+</div>
+</div>
+</div>
+
+<div class='editor_container'>
+<input type="hidden" name="recovery_key" id="recovery_key" value="904" autocomplete="off" />
+<div class='answer_wrap'>
+<div class='title_wrap mb10'>
+<h3 class='h3_title'>
+解答コード入力欄
+</h3>
+<div class='answer_wrap_option'>
+<select class="box form-control" name="language[id]" id="language_id"><option value="">使用する言語</option>
+<option value="2300">Java</option>
+<option value="2301">PHP</option>
+<option value="2302">Ruby</option>
+<option value="2303">Python2</option>
+<option value="2321">Python3</option>
+<option value="2304">Perl</option>
+<option value="2305">C</option>
+<option value="2306">C++</option>
+<option value="2307">C#</option>
+<option value="2308">JavaScript</option>
+<option value="2309">Objective-C</option>
+<option value="2310">Scala</option>
+<option value="2311">Go</option>
+<option value="2324">Swift</option>
+<option value="2325">Kotlin</option>
+<option value="2312">Haskell(Beta)</option>
+<option value="2313">CoffeeScript(Beta)</option>
+<option value="2314">Bash(Beta)</option>
+<option value="2315">Erlang(Beta)</option>
+<option value="2316">R(Beta)</option>
+<option value="2318">COBOL(Beta)</option>
+<option value="2319">VB(Beta)</option>
+<option value="2320">F#(Beta)</option>
+<option value="2322">Clojure(Beta)</option>
+<option value="2323">D(Beta)</option>
+<option value="2326">Elixir(Beta)</option>
+<option value="2327">Rust(Beta)</option>
+<option value="2328">Scheme(Beta)</option></select>
+</div>
+</div>
+<form class="simple_form new_retry_result" id="code_hand_in" novalidate="novalidate" action="/challenges/904/retry_submit" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="qm1_kzkjY42GZx6-IuO1KEAQc6b7UoF2iZAtOARhV7Cl7pMcL-Lrns2TSQ_-6_d9CKbQ1PM-YN7xkFBZils19w" autocomplete="off" /><input id="programming_language_id" autocomplete="off" type="hidden" name="retry_result[programming_language_id]" />
+<input id="code" autocomplete="off" type="hidden" name="retry_result[code]" />
+</form><div class='editor_wrap'>
+<div class='editor_area'>
+<div class='editor_ctr_btn_wrap'>
+<div class='editor_ctr_btn m-t-10'>
+<button class='btn btn-default btn-xs m-r-5' data-placement='bottom' data-toggle='tooltip' id='code_zoom' title='拡大する'>
+<span aria-hidden='true' class='p-challenges-icon p-challenges-icon--search-plus'></span>
+</button>
+</div>
+<div class='editor_ctr_btn'>
+<button class='btn btn-default btn-xs m-r-5' data-placement='bottom' data-toggle='tooltip' id='code_zoom_out' title='縮小する'>
+<span aria-hidden='true' class='p-challenges-icon p-challenges-icon--search-minus'></span>
+</button>
+</div>
+<div class='editor_ctr_btn m-t-10'>
+<button class='theme_color_box dark' data-placement='bottom' data-theme='dark' data-toggle='tooltip' title='エディターテーマを黒にする'></button>
+</div>
+<div class='editor_ctr_btn'>
+<button class='theme_color_box white' data-placement='bottom' data-theme='white' data-toggle='tooltip' title='エディターテーマを白にする'></button>
+</div>
+<div class='editor_ctr_btn'>
+<button class='theme_color_box orange' data-placement='bottom' data-theme='orange' data-toggle='tooltip' title='エディターテーマを黄色にする'></button>
+</div>
+</div>
+<div id='editor-div' style='height: 250px; width: 100%'></div>
+</div>
+<div class='compile-test-area'>
+<div class='compile-test-area__input-select'>
+<label for='sample_input_no'>動作確認で使うテストケースを選択</label>
+<select name="sample_input_no" id="sample_input_no" class="select box"><option value="0">入力例1</option>
+<option value="1">入力例2</option>
+<option value="2">入力例3</option></select>
+</div>
+<div class='compile-test-area__submit-button'>
+<button name="button" type="submit" id="do_compile" onclick="compile_ang_test(&#39;/challenges/904/compile_and_test&#39;)" class="btn btn-primary m-r-5"><span aria-hidden='true' class='p-challenges-icon p-challenges-icon--gear'></span>
+提出前動作確認
+</button></div>
+</div>
+<div class='paiza_io_area'>
+<a target="_blank" href="https://paiza.io/ja/projects/new">→入力値を自由に試す（paiza.IO）
+<span aria-hidden='true' class='p-challenges-icon p-challenges-icon--external-link'></span>
+</a></div>
+</div>
+</div>
+<div class='loadingBox' style='display:none'>
+<img alt="判定中…" class="center-block" ssl_detected="true" width="200" height="140" src="https://paiza.jp/member/images/txt_02.gif" />
+</div>
+<div class='output_wrap'></div>
+<p class='text-center'>
+<a id="handin" onclick="remove_stored_history(); hand_in_code(true);" class="btn btn-warning btn-lg m-r-5" href="javascript:void(0)">コードを提出する
+</a></p>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+<script src="https://cdn-paiza.paiza.jp/packs/partials/footers/global_footer.17b8eb89cd34d5a6.js" defer="defer"></script>
+<link rel="stylesheet" href="https://cdn-paiza.paiza.jp/packs/partials/footers/global_footer.fc8919272cf72136.css" />
+
+<div data-is-copyright-only='false' data-is-no-menu='false' data-is-sns-share-button-visible='true' data-logged-in='true' id='js-react-global-footer'></div>
+
+<div id='pagetop'>
+<a href="#"><img alt="ページの先頭へ戻る" class="rollover-image__on " data-rollover-path="https://paiza.jp/images/pagetop_o.png" onMouseover="this.src='https://paiza.jp/images/pagetop_o.png'" onMouseOut="this.src='https://paiza.jp/images/pagetop.png'" ssl_detected="true" width="60" height="60" src="https://paiza.jp/images/pagetop.png" />
+</a></div>
+
+
+<script type="text/javascript" class="microad_blade_track">
+  <!--
+  var microad_blade_jp = microad_blade_jp || { 'params' : new Array(), 'complete_map' : new Object() };
+  (function() {
+    var param = {'co_account_id' : '21878', 'group_id' : '', 'country_id' : '1', 'ver' : '2.1.0'};
+    microad_blade_jp.params.push(param);
+
+    var src = (location.protocol == 'https:')
+      ? 'https://d-cache.microad.jp/js/blade_track_jp.js' : 'http://d-cache.microad.jp/js/blade_track_jp.js';
+
+    var bs = document.createElement('script');
+    bs.type = 'text/javascript'; bs.async = true;
+    bs.charset = 'utf-8'; bs.src = src;
+
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(bs, s);
+  })();
+  -->
+</script>
+
+
+</body>
+</html>
+
+
+## 入力
+
+```
+```
+
+## 出力
+
+```
+```
+
+## 気づいたこと
