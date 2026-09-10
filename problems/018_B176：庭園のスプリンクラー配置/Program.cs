@@ -29,7 +29,7 @@ class Program
                 {
                     if (gardenC < 0 || gardenC >= M) continue;  // 列の境界値チェック
 
-                    garden[gardenC, gardenR] = true;
+                    garden[gardenR, gardenC] = true;
                 }
             }
         }
@@ -37,7 +37,7 @@ class Program
         // LINQを使わずカウントする場合
         // int answer = 0;
         // foreach (bool b in garden) if (b) answer++;
-        
+
         // 二次元配列をシーケンスに平坦化してからLINQでカウント
         int answer = garden.Cast<bool>().Count(el => el);
         Console.WriteLine(answer);
