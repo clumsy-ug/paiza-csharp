@@ -3,8 +3,8 @@
   "tasks": [
     {
       // 既定のビルドタスク (Ctrl+Shift+B)。
-      // 開いている Program.cs の問題を input.txt で実行し、expected.txt と比較する。
-      "label": "採点: input.txt で実行して expected.txt と比較",
+      // 開いている Program.cs の問題を input*.txt で順に実行し、expected*.txt と比較する。
+      "label": "採点: input*.txt で実行して expected*.txt と比較",
       "type": "process",
       "command": "pwsh",
       "args": [

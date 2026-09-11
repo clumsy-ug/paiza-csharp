@@ -2,8 +2,8 @@
   "version": "0.2.0",
   "configurations": [
     {
-      // 開いている Program.cs の問題を、同じフォルダの input.txt / input2.txt / ... を順に標準入力にして実行
-      // (ケースごとに --- input.txt / expected.txt --- の見出しが付く)
+      // 開いている Program.cs の問題を、同じフォルダの input1.txt / input2.txt / ... を順に標準入力にして実行
+      // (ケースごとに --- input1.txt / expected1.txt --- の見出しが付く)
       "name": "今開いている問題を実行 (input*.txt 全ケース)",
       "type": "coreclr",
       "request": "launch",
@@ -15,7 +15,7 @@
       "stopAtEntry": false
     },
     {
-      // input.txt を使わず、自分でキーボードから入力する
+      // input*.txt を使わず、自分でキーボードから入力する
       "name": "今開いている問題を実行 (キーボード入力)",
       "type": "coreclr",
       "request": "launch",

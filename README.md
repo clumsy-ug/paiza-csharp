@@ -68,7 +68,7 @@ code .
 4. 問題名を入力する (例: `3つのデータの入力`)
 
 `problems\004_3つのデータの入力\` が作られ、`Program.cs` / `memo.md` と、
-空の `input.txt`〜`input3.txt` / `expected.txt`〜`expected3.txt` が入った状態に
+空の `input1.txt`〜`input3.txt` / `expected1.txt`〜`expected3.txt` が入った状態に
 なります。番号は自動で振られます。
 
 ターミナル派なら同じことを 1 行でできます。
@@ -107,8 +107,8 @@ paiza の問題文から、そのままコピーして貼り付けて保存し�
 
 | paiza の項目 | 貼り先 |
 | --- | --- |
-| 入力例1 | `input.txt` |
-| 出力例1 | `expected.txt` |
+| 入力例1 | `input1.txt` |
+| 出力例1 | `expected1.txt` |
 | 入力例2 | `input2.txt` |
 | 出力例2 | `expected2.txt` |
 | 入力例3 | `input3.txt` |
@@ -122,7 +122,7 @@ paiza の問題文から、そのままコピーして貼り付けて保存し�
 入力例4以降がある問題では、ファイルを対で増やせば一度に全部判定されます。
 
 ```
-input.txt   <-> expected.txt
+input1.txt  <-> expected1.txt
 input2.txt  <-> expected2.txt
 input3.txt  <-> expected3.txt
 ```
@@ -162,10 +162,10 @@ Roslyn の赤波線が出ていなくても、ここにエラーが出たら pai
 === 004_sum_of_array ===
 コンパイル: mcs / 実行: mono (paiza と同じ)
 
--- 入力: input.txt
+-- 入力: input1.txt
 -- 出力:
   8
-  [OK] expected.txt と一致
+  [OK] expected1.txt と一致
 
 すべて OK
 ```
@@ -173,7 +173,7 @@ Roslyn の赤波線が出ていなくても、ここにエラーが出たら pai
 `[NG]` なら何行目がどう違うかまで出ます。
 
 ```
-  [NG] expected.txt と不一致
+  [NG] expected1.txt と不一致
     1 行目: 期待 [12] / 実際 [8]
 ```
 
@@ -181,8 +181,8 @@ Roslyn の赤波線が出ていなくても、ここにエラーが出たら pai
 
 出力が合わない理由が分からないときは `F5` でデバッグ実行します。
 行番号の左をクリックしてブレークポイントを置くと、そこで止まって変数の中身を見られます
-(使っているテストケースを `input.txt` → `input2.txt` → ... の順に標準入力として流し込み、
-`--- input.txt / expected.txt ---` の見出し付きで全ケースの出力を出します。
+(使っているテストケースを `input1.txt` → `input2.txt` → ... の順に標準入力として流し込み、
+`--- input1.txt / expected1.txt ---` の見出し付きで全ケースの出力を出します。
 同じプロセスで `Main` を続けて呼ぶので、`static` フィールドは前のケースの値を引き継ぎます)。
 `F10` で次の行へ、`F11` で関数の中へ、`Shift+F5` で停止。
 
@@ -196,7 +196,7 @@ Roslyn の赤波線が出ていなくても、ここにエラーが出たら pai
 `すべて OK` になったら `Program.cs` の中身を全部コピーします
 (`using System;` から最後の `}` まで)。それを paiza のエディタに貼り付けて提出します。
 
-`input.txt` を読み込む処理はこのファイルには入っていない (`shared\LocalRunner.cs` 側にある)
+`input*.txt` を読み込む処理はこのファイルには入っていない (`shared\LocalRunner.cs` 側にある)
 ので、消したり書き換えたりせずそのまま貼れます。
 
 ---
@@ -241,21 +241,21 @@ paiza の `mcs` は C# 7.0 相当で、しかも C# 7.0 の一部が未実装で
 | `CS1061 ... does not contain a definition for` | Mono に無い API。`CHEATSHEET.md` の代替を使う |
 | 保存しても mcs のエラーが出ない | 自動タスクが未許可。「0. 最初の 1 回だけ」をやり直す |
 | `Ctrl+Shift+B` / `F5` が別の問題を実行する | 対象の `Program.cs` をアクティブにしてから押す |
-| `Ctrl+Shift+B` でタスク一覧が出る | 一覧から「採点: input.txt で実行して expected.txt と比較」を選ぶ |
+| `Ctrl+Shift+B` でタスク一覧が出る | 一覧から「採点: input*.txt で実行して expected*.txt と比較」を選ぶ |
 | キーが効かない | `Ctrl+K Ctrl+S` で `Run Build Task` / `Debug: Start Debugging` の割り当てを確認する |
 | キーボード入力が終われない | `Ctrl+Z` → `Enter` (EOF) |
 | `error MSB3202: プロジェクト ファイル ... が見つかりませんでした` | 問題フォルダを手で消した。`Paiza.slnx` の該当 `<Project Path="..." />` 行を消す。`New-Problem.ps1` / `Remove-Problem.ps1` を実行しても自動で掃除される |
 | VS Code が「Projects: ✕ N」とエラーを出す | 同上。`Paiza.slnx` に実体のない参照が残っている |
 | 問題を削除できない (使用中) | 直前に別の操作でそのフォルダを触ったプロセスがまだハンドルを持っている。1 秒ほど待って再実行すれば通る。sln の登録は先に外れているのでビルドは壊れていない |
-| `input.txt` を書き換えたのに反映されない | 保存されていない |
-| 日本語が文字化けする | `input.txt` / `expected.txt` を UTF-8 で保存する |
+| `input1.txt` を書き換えたのに反映されない | 保存されていない |
+| 日本語が文字化けする | `input*.txt` / `expected*.txt` を UTF-8 で保存する |
 
 ## その他の操作
 
 ### ターミナルから採点する
 
 ```powershell
-# mcs + mono で実行して expected.txt と比較 (問題名は部分一致でよい)
+# mcs + mono で実行して expected*.txt と比較 (問題名は部分一致でよい)
 .\tools\Run-Problem.ps1 002
 
 # 自分でキーボード入力する
@@ -357,7 +357,7 @@ paiza-csharp\
 │   ├── _Solution.ps1          ソリューション操作の共通処理 (実体のない参照の掃除など)
 │   ├── New-Problem.ps1        新しい問題フォルダを作る
 │   ├── Remove-Problem.ps1     問題フォルダを削除しソリューションの登録も外す
-│   ├── Run-Problem.ps1        mcs でコンパイルし mono で実行して expected.txt と比較
+│   ├── Run-Problem.ps1        mcs でコンパイルし mono で実行して expected*.txt と比較
 │   └── Watch-Mono.ps1         保存を監視して mcs のエラーを「問題」パネルに出す常駐タスク
 └── problems\
     ├── 001_hello\             入力なし・出力だけ
@@ -365,8 +365,8 @@ paiza-csharp\
     └── 003_n_lines\           N 行読んで合計
         ├── 003_n_lines.csproj
         ├── Program.cs         paiza に貼り付けるファイル
-        ├── input.txt          問題の入力例
-        ├── expected.txt       期待する出力例
+        ├── input1.txt         問題の入力例
+        ├── expected1.txt      期待する出力例
         └── memo.md            問題 URL などのメモ
 ```
 
