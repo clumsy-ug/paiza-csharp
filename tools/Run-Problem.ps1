@@ -20,7 +20,7 @@ param(
     [Parameter(Position = 0)]
     [string]$Problem,
 
-    # input.txt を使わず、キーボードから入力する
+    # input*.txt を使わず、キーボードから入力する
     [switch]$Interactive,
 
     # expected*.txt との比較をしない
@@ -143,7 +143,7 @@ if ($mcs -and $mono) {
     $cmdArgs = @()
     if (-not (Test-Path -LiteralPath $cmd)) { throw "実行ファイルが見つかりません: $cmd" }
 
-    # LocalRunner による input.txt の読み込みを止め、標準入力はこちらから渡す
+    # LocalRunner による input*.txt の読み込みを止め、標準入力はこちらから渡す
     $usedEnv['PAIZA_STDIN'] = 'pipe'
     Write-Host "コンパイル: Roslyn / 実行: .NET" -ForegroundColor DarkGray
 }
@@ -160,11 +160,11 @@ if ($Interactive) {
     exit $LASTEXITCODE
 }
 
-# ---- テストケース (input.txt / input2.txt ... と expected*.txt の対) --------
-# New-Problem は input.txt〜input3.txt / expected.txt〜expected3.txt を全部空で用意する。
+# ---- テストケース (input1.txt / input2.txt ... と expected*.txt の対) --------
+# New-Problem は input1.txt〜input3.txt / expected1.txt〜expected3.txt を全部空で用意する。
 # 入力も期待出力も空のままの対は「使っていないテストケース」なので、実行も判定もしない
 # (入力例が 2 つしかない問題で input3.txt / expected3.txt が空でも NG にならない)。
-# 片方だけに中身がある対は実行する (入力なしの問題は input.txt が空で expected.txt だけ埋まる)。
+# 片方だけに中身がある対は実行する (入力なしの問題は input1.txt が空で expected1.txt だけ埋まる)。
 function Test-BlankFile([string]$path) {
     if (-not (Test-Path -LiteralPath $path)) { return $true }
     return [string]::IsNullOrWhiteSpace((Get-Content -LiteralPath $path -Raw))
@@ -237,7 +237,7 @@ try {
 
         if ($NoCompare) { continue }
 
-        # input.txt -> expected.txt / input2.txt -> expected2.txt
+        # input1.txt -> expected1.txt / input2.txt -> expected2.txt
         $suffix       = if ($inp) { $inp.BaseName -replace '^input', '' } else { '' }
         $expectedPath = Join-Path $dir "expected$suffix.txt"
         $expectedRaw  = if (Test-Path -LiteralPath $expectedPath) { Get-Content -LiteralPath $expectedPath -Raw } else { $null }

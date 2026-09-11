@@ -65,7 +65,7 @@ if (Test-Path -LiteralPath $dir) { throw "もう存在します: $dir" }
 # ディレクトリ作成もコピーもリテラル指定で行う
 [System.IO.Directory]::CreateDirectory($dir) | Out-Null
 
-foreach ($f in @('Program.cs', 'input.txt', 'expected.txt', 'input2.txt', 'expected2.txt', 'input3.txt', 'expected3.txt', 'memo.md')) {
+foreach ($f in @('Program.cs', 'input1.txt', 'expected1.txt', 'input2.txt', 'expected2.txt', 'input3.txt', 'expected3.txt', 'memo.md')) {
     Copy-Item -LiteralPath (Join-Path $templateDir $f) -Destination $dir
 }
 
@@ -89,8 +89,8 @@ if ($sln) {
 Write-Host "作成しました: problems\$Name" -ForegroundColor Green
 Write-Host ""
 Write-Host "次にやること:" -ForegroundColor Cyan
-Write-Host "  1. problems\$Name\input.txt    に問題の入力例1を貼る"
-Write-Host "  2. problems\$Name\expected.txt に出力例1を貼る"
+Write-Host "  1. problems\$Name\input1.txt    に問題の入力例1を貼る"
+Write-Host "  2. problems\$Name\expected1.txt に出力例1を貼る"
 Write-Host "     (入力例2/3は input2.txt / expected2.txt, input3.txt / expected3.txt に貼る。"
 Write-Host "      無い分は空のままでよい。空の対は採点時にスキップされる)"
 Write-Host "  3. problems\$Name\Program.cs   を書く"

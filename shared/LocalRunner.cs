@@ -1,8 +1,8 @@
 // ローカル実行専用のヘルパー。paiza には提出しない。
 //
-// 問題フォルダにある input.txt / input2.txt / ... を順に標準入力に差し替えて、
+// 問題フォルダにある input1.txt / input2.txt / ... を順に標準入力に差し替えて、
 // テストケースごとに Main を呼ぶ。出力には
-//   --- input.txt / expected.txt ---
+//   --- input1.txt / expected1.txt ---
 // のような見出しを付けるので、F5 (デバッグ実行) 1 回で全ケースの出力を見られる。
 // これにより Program.cs 側はローカル専用のコードを持たず、そのまま paiza に提出できる。
 //
@@ -140,7 +140,7 @@ internal static class LocalRunner
             cases.Add(tc);
         }
 
-        // input.txt, input2.txt, input3.txt, ... の順。
+        // input1.txt, input2.txt, input3.txt, ... の順。
         // 文字列順だと input10.txt が input2.txt の前に来るので番号で並べる
         cases.Sort((a, b) =>
         {
@@ -150,11 +150,10 @@ internal static class LocalRunner
         return cases;
     }
 
-    // input.txt -> 1, input2.txt -> 2, input3.txt -> 3, それ以外 -> 末尾
+    // input1.txt -> 1, input2.txt -> 2, input3.txt -> 3, それ以外 -> 末尾
     private static int CaseNumber(string inputName)
     {
         string suffix = Path.GetFileNameWithoutExtension(inputName).Substring("input".Length);
-        if (suffix.Length == 0) return 1;
         int n;
         return int.TryParse(suffix, out n) ? n : int.MaxValue;
     }
