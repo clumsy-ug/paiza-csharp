@@ -23,5 +23,6 @@
     <Project Path="problems/016_B161：射撃訓練/016_B161：射撃訓練.csproj" />
     <Project Path="problems/017_A097：絵の具配合システム/017_A097：絵の具配合システム.csproj" />
     <Project Path="problems/018_B176：庭園のスプリンクラー配置/018_B176：庭園のスプリンクラー配置.csproj" />
+    <Project Path="problems/019_B108：観覧車の稼働状況/019_B108：観覧車の稼働状況.csproj" />
   </Folder>
 </Solution>

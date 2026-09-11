@@ -1,0 +1,3 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- 共通設定は ..\..\Directory.Build.props にある -->
+</Project>
