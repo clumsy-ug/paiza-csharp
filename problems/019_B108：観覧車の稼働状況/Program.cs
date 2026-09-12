@@ -29,12 +29,11 @@ class Program
         int[] gondolaRidings = new int[N];
         for (int groupIndex = 0; groupIndex < M; groupIndex++)
         {
-            ReturnValue returnValue = CheckAllRideGondolaAndChangeGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, N, groups[groupIndex]);
-            while (returnValue.Remaining != -1)
+            int remaining = CheckAllRideGondolaAndChangeGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, N, groups[groupIndex]);
+            while (remaining != -1)
             {
-                returnValue = CheckAllRideGondolaAndChangeGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, N, returnValue.Remaining);
+                remaining = CheckAllRideGondolaAndChangeGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, N, remaining);
             }
-            gondolaRidings = returnValue.GondolaRidings;
         }
 
         // 回答
@@ -43,8 +42,8 @@ class Program
 
 
     /// <summary>余った人が次のゴンドラでも乗り切れるかわからないため、再帰処理用に関数切り出し</summary>
-    /// <returns>ReturnValue.Remainingが-1なら全員乗車可能、1以上ならそれがremainingの値そのもの</returns>
-    static ReturnValue CheckAllRideGondolaAndChangeGondola(
+    /// <returns>-1なら全員乗車可能、1以上なら次のゴンドラに乗る余り人数</returns>
+    static int CheckAllRideGondolaAndChangeGondola(
         int[] gondolaCapacities,
         ref int gondolaIndex,
         int[] gondolaRidings,
@@ -52,38 +51,22 @@ class Program
         int remaining
     )
     {
-        ReturnValue returnValue = new ReturnValue();
+        int nextRemaining;
         
         // グループ全員がこのゴンドラに乗れる
         if (gondolaCapacities[gondolaIndex] >= remaining)
         {
             gondolaRidings[gondolaIndex] += remaining;
-
-            returnValue = new ReturnValue
-            {
-                Remaining = -1,
-                GondolaRidings = gondolaRidings
-            };
+            nextRemaining = -1;
         }
         // グループで全員は乗れずに人が余る = 余った数人は次のゴンドラを占有（そのゴンドラでも乗り切れるかわからないので再帰チェック挟むべき）
         else
         {
             gondolaRidings[gondolaIndex] += gondolaCapacities[gondolaIndex];  // 許容範囲限界まで乗車
-            returnValue = new ReturnValue
-            {
-                Remaining = remaining - gondolaCapacities[gondolaIndex],
-                GondolaRidings = gondolaRidings
-            };
+            nextRemaining = remaining - gondolaCapacities[gondolaIndex];
         }
 
         if (gondolaIndex == N - 1) gondolaIndex = 0; else gondolaIndex++;  // 最後のゴンドラなら最初のゴンドラ0に戻る。最後出ないなら普通に次のゴンドラに行く。
-        return returnValue;
+        return nextRemaining;
     }
-}
-
-
-class ReturnValue
-{
-    public int Remaining;
-    public int[] GondolaRidings;
 }
