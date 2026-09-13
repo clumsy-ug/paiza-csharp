@@ -41,8 +41,8 @@ class Program
     }
 
 
-    /// <summary>余った人が次のゴンドラでも乗り切れるかわからないため、再帰処理用に関数切り出し</summary>
-    /// <returns>0なら全員乗れた、1以上なら余りが出たので次のゴンドラに乗る</returns>
+    /// <summary>乗り場のゴンドラに乗れるだけ載せて、次のゴンドラに進める</summary>
+    /// <returns>乗れなかった余り人数。0なら全員乗れた</returns>
     static int CheckAllRideGondolaAndChangeGondola(
         int[] gondolaCapacities,
         ref int gondolaIndex,
@@ -51,22 +51,12 @@ class Program
         int remaining
     )
     {
-        int nextRemaining;
-        
-        // グループ全員がこのゴンドラに乗れる
-        if (gondolaCapacities[gondolaIndex] >= remaining)
-        {
-            gondolaRidings[gondolaIndex] += remaining;
-            nextRemaining = 0;
-        }
-        // グループで全員は乗れずに人が余る = 余った数人は次のゴンドラを占有（そのゴンドラでも乗り切れるかわからないので再帰チェック挟むべき）
-        else
-        {
-            gondolaRidings[gondolaIndex] += gondolaCapacities[gondolaIndex];  // 許容範囲限界まで乗車
-            nextRemaining = remaining - gondolaCapacities[gondolaIndex];
-        }
+        int riding = Math.Min(remaining, gondolaCapacities[gondolaIndex]);  // 残り全員かゴンドラ定員か、少ない方だけ乗れる
+        gondolaRidings[gondolaIndex] += riding;
+        int nextRemaining = remaining - riding;
 
         if (gondolaIndex == N - 1) gondolaIndex = 0; else gondolaIndex++;  // 最後のゴンドラなら最初のゴンドラ0に戻る。最後出ないなら普通に次のゴンドラに行く。
+
         return nextRemaining;
     }
 }
