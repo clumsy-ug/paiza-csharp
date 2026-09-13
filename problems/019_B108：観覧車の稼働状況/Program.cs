@@ -54,7 +54,7 @@ class Program
         gondolaRidings[gondolaIndex] += riding;
         int nextRemaining = remaining - riding;
 
-        if (gondolaIndex == gondolaCapacities.Length - 1) gondolaIndex = 0; else gondolaIndex++;  // 最後のゴンドラなら最初のゴンドラ0に戻る。最後出ないなら普通に次のゴンドラに行く。
+        gondolaIndex = (gondolaIndex + 1) % gondolaCapacities.Length;  // 最後のゴンドラなら最初のゴンドラ0に戻る。最後でないなら普通に次のゴンドラに行く。
 
         return nextRemaining;
     }
