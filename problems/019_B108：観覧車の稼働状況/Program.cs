@@ -29,8 +29,8 @@ class Program
         int[] gondolaRidings = new int[N];
         for (int groupIndex = 0; groupIndex < M; groupIndex++)
         {
-            int remaining = CheckAllRideGondolaAndChangeGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, N, groups[groupIndex]);
-            while (remaining != -1)
+            int remaining = groups[groupIndex];
+            while (remaining > 0)
             {
                 remaining = CheckAllRideGondolaAndChangeGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, N, remaining);
             }
@@ -42,7 +42,7 @@ class Program
 
 
     /// <summary>余った人が次のゴンドラでも乗り切れるかわからないため、再帰処理用に関数切り出し</summary>
-    /// <returns>-1なら全員乗車可能、1以上なら次のゴンドラに乗る余り人数</returns>
+    /// <returns>0なら全員乗れた、1以上なら余りが出たので次のゴンドラに乗る</returns>
     static int CheckAllRideGondolaAndChangeGondola(
         int[] gondolaCapacities,
         ref int gondolaIndex,
@@ -57,7 +57,7 @@ class Program
         if (gondolaCapacities[gondolaIndex] >= remaining)
         {
             gondolaRidings[gondolaIndex] += remaining;
-            nextRemaining = -1;
+            nextRemaining = 0;
         }
         // グループで全員は乗れずに人が余る = 余った数人は次のゴンドラを占有（そのゴンドラでも乗り切れるかわからないので再帰チェック挟むべき）
         else
