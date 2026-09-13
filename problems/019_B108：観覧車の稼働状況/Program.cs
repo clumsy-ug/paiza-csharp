@@ -32,7 +32,8 @@ class Program
             int remaining = groups[groupIndex];
             while (remaining > 0)
             {
-                remaining = RideAndMoveToNextGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, remaining);
+                remaining = Ride(gondolaCapacities, gondolaIndex, gondolaRidings, remaining);
+                gondolaIndex = (gondolaIndex + 1) % N;  // 乗車が終わったら次のゴンドラへ（最後のゴンドラなら最初のゴンドラ0に戻る。最後でないなら次のゴンドラに行く）
             }
         }
 
@@ -41,21 +42,19 @@ class Program
     }
 
 
-    /// <summary>乗り場のゴンドラに乗れるだけ載せて、次のゴンドラに進める</summary>
+    /// <summary>乗り場のゴンドラに乗れるだけ載せる</summary>
     /// <returns>乗れなかった余り人数。0なら全員乗れた</returns>
-    static int RideAndMoveToNextGondola(
+    static int Ride(
         int[] gondolaCapacities,
-        ref int gondolaIndex,
+        int gondolaIndex,
         int[] gondolaRidings,
         int remaining
     )
     {
         int riding = Math.Min(remaining, gondolaCapacities[gondolaIndex]);  // 残り全員かゴンドラ定員か、少ない方だけ乗れる
         gondolaRidings[gondolaIndex] += riding;
+
         int nextRemaining = remaining - riding;
-
-        gondolaIndex = (gondolaIndex + 1) % gondolaCapacities.Length;  // 最後のゴンドラなら最初のゴンドラ0に戻る。最後でないなら普通に次のゴンドラに行く。
-
         return nextRemaining;
     }
 }
