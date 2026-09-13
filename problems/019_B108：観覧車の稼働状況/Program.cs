@@ -32,7 +32,7 @@ class Program
             int remaining = groups[groupIndex];
             while (remaining > 0)
             {
-                remaining = CheckAllRideGondolaAndChangeGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, N, remaining);
+                remaining = CheckAllRideGondolaAndChangeGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, remaining);
             }
         }
 
@@ -47,7 +47,6 @@ class Program
         int[] gondolaCapacities,
         ref int gondolaIndex,
         int[] gondolaRidings,
-        int N,
         int remaining
     )
     {
@@ -55,7 +54,7 @@ class Program
         gondolaRidings[gondolaIndex] += riding;
         int nextRemaining = remaining - riding;
 
-        if (gondolaIndex == N - 1) gondolaIndex = 0; else gondolaIndex++;  // 最後のゴンドラなら最初のゴンドラ0に戻る。最後出ないなら普通に次のゴンドラに行く。
+        if (gondolaIndex == gondolaCapacities.Length - 1) gondolaIndex = 0; else gondolaIndex++;  // 最後のゴンドラなら最初のゴンドラ0に戻る。最後出ないなら普通に次のゴンドラに行く。
 
         return nextRemaining;
     }
