@@ -32,7 +32,7 @@ class Program
             int remaining = groups[groupIndex];
             while (remaining > 0)
             {
-                remaining = CheckAllRideGondolaAndChangeGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, remaining);
+                remaining = RideAndMoveToNextGondola(gondolaCapacities, ref gondolaIndex, gondolaRidings, remaining);
             }
         }
 
@@ -43,7 +43,7 @@ class Program
 
     /// <summary>乗り場のゴンドラに乗れるだけ載せて、次のゴンドラに進める</summary>
     /// <returns>乗れなかった余り人数。0なら全員乗れた</returns>
-    static int CheckAllRideGondolaAndChangeGondola(
+    static int RideAndMoveToNextGondola(
         int[] gondolaCapacities,
         ref int gondolaIndex,
         int[] gondolaRidings,
