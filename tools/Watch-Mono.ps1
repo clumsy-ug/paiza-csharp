@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    problems\ 配下の Program.cs を監視し、保存されるたびに mcs (paiza と同じコンパイラ) に通します。
+    problems/ 配下の Program.cs を監視し、保存されるたびに mcs (paiza と同じコンパイラ) に通します。
 
 .DESCRIPTION
     Roslyn (VS Code の赤波線) は通しても mcs が通さないコードがあります。
@@ -14,7 +14,7 @@
     (初回だけ「このフォルダーで自動タスクを許可しますか?」に許可が必要)。
 
 .EXAMPLE
-    .\tools\Watch-Mono.ps1
+    ./tools/Watch-Mono.ps1
 #>
 [CmdletBinding()]
 param(
@@ -26,22 +26,13 @@ $ErrorActionPreference = 'Continue'
 $root        = Split-Path -Parent $PSScriptRoot
 $problemsDir = Join-Path $root 'problems'
 
-function Find-MonoTool([string]$tool) {
-    $cmd = Get-Command $tool -ErrorAction SilentlyContinue
-    if ($cmd) { return $cmd.Source }
-    foreach ($base in @("$env:ProgramFiles\Mono\bin", "${env:ProgramFiles(x86)}\Mono\bin")) {
-        foreach ($ext in @('.bat', '.exe')) {
-            $p = Join-Path $base "$tool$ext"
-            if (Test-Path -LiteralPath $p) { return $p }
-        }
-    }
-    return $null
-}
+# Find-MonoTool / Get-MonoInstallHint（Windows と macOS の両方に対応）
+. (Join-Path $PSScriptRoot '_Mono.ps1')
 
 $mcs = Find-MonoTool 'mcs'
 if (-not $mcs) {
     Write-Host "mcs が見つからないため監視を開始しません。" -ForegroundColor Yellow
-    Write-Host "  winget install Mono.Mono" -ForegroundColor Yellow
+    Write-Host "  $(Get-MonoInstallHint)" -ForegroundColor Yellow
     exit 1
 }
 
@@ -62,7 +53,7 @@ if (-not $acquired) {
 }
 
 Write-Host "mcs 監視を開始しました ($mcs)"
-Write-Host "problems\**\Program.cs を保存すると paiza と同じコンパイラでチェックします。"
+Write-Host "problems/**/Program.cs を保存すると paiza と同じコンパイラでチェックします。"
 
 # コンパイル結果の置き場はリポジトリ直下に 1 つだけ作る。
 # 問題フォルダの中に書き込むと、このプロセスがフォルダのハンドルを掴んでしまい、

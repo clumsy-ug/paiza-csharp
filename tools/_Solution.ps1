@@ -11,7 +11,7 @@ function Get-SolutionFile([string]$root) {
 }
 
 # 実体が無いプロジェクト参照を .slnx から取り除く。
-# フォルダをエクスプローラーで手削除した後などに残る参照を掃除する。
+# フォルダをエクスプローラーや Finder で手削除した後などに残る参照を掃除する。
 # 残したままだと dotnet build が error MSB3202 で失敗し、
 # VS Code の C# Dev Kit も「Projects: x N」とエラーを出す。
 # 戻り値は取り除いた件数。
@@ -25,7 +25,8 @@ function Repair-Solution([string]$slnPath, [string]$root) {
         $rel = $node.GetAttribute('Path')
         if ([string]::IsNullOrWhiteSpace($rel)) { continue }
 
-        $full = Join-Path $root ($rel -replace '/', '\')
+        # .slnx のパスは / 区切り。OS の区切り文字にそろえる (\ に固定すると macOS では常に「無い」と判定される)
+        $full = Join-Path $root ($rel -replace '[\\/]', [IO.Path]::DirectorySeparatorChar)
         if (-not (Test-Path -LiteralPath $full)) {
             $node.ParentNode.RemoveChild($node) | Out-Null
             $removed++
