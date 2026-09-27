@@ -6,8 +6,13 @@ paiza の問題をローカルの VS Code で解くための作業環境です�
 
 ## 前提
 
-- .NET SDK 10
-- Mono for Windows … `winget install Mono.Mono`
+Windows と macOS のどちらでも同じように使えます。
+
+| | Windows | macOS |
+| --- | --- | --- |
+| .NET SDK 10 | .NET SDK 10 を入れる | `brew install powershell` で一緒に入る |
+| PowerShell 7 (`pwsh`) | PowerShell 7 を入れる (Windows 標準の 5.1 ではなく 7) | `brew install powershell` |
+| Mono (`mcs` / `mono`) | `winget install Mono.Mono` | `brew install mono` |
 
 Mono が無くても動きますが、その場合は .NET でのビルド・実行にフォールバックし、
 Mono に存在しない API を検出できません。
@@ -30,6 +35,10 @@ code .
 | --- | --- | --- |
 | `Ctrl+Shift+B` | 採点 | `Run Build Task`。採点タスクを既定のビルドタスクにしてある |
 | `F5` | デバッグ実行 | `Start Debugging` |
+
+macOS では、この README の `Ctrl` を `⌘` に読み替えてください
+(採点は `⌘+Shift+B`、コマンドパレットは `⌘+Shift+P`、キーボード ショートカットは `⌘K ⌘S`)。
+`F5` は、F キーを標準のファンクションキーにしていなければ `fn+F5` です。
 
 押しやすいキーに変えたい場合は、`Ctrl+K Ctrl+S` → 右上の「キーボード ショートカットを開く (JSON)」で
 自分の `keybindings.json` に足します (リポジトリには含めない個人設定)。
@@ -230,7 +239,7 @@ paiza の `mcs` は C# 7.0 相当で、しかも C# 7.0 の一部が未実装で
 | `Ctrl+Shift+B` / `F5` が別の問題を実行する | 対象の `Program.cs` をアクティブにしてから押す |
 | `Ctrl+Shift+B` でタスク一覧が出る | 一覧から「採点: input*.txt で実行して expected*.txt と比較」を選ぶ |
 | キーが効かない | `Ctrl+K Ctrl+S` で `Run Build Task` / `Debug: Start Debugging` の割り当てを確認する |
-| キーボード入力が終われない | `Ctrl+Z` → `Enter` (EOF) |
+| キーボード入力が終われない | Windows は `Ctrl+Z` → `Enter`、macOS は `Ctrl+D` (EOF) |
 | `error MSB3202: プロジェクト ファイル ... が見つかりませんでした` | 問題フォルダを手で消した。`Paiza.slnx` の該当 `<Project Path="..." />` 行を消す。`New-Problem.ps1` / `Remove-Problem.ps1` を実行しても自動で掃除される |
 | VS Code が「Projects: ✕ N」とエラーを出す | 同上。`Paiza.slnx` に実体のない参照が残っている |
 | 問題を削除できない (使用中) | 直前に別の操作でそのフォルダを触ったプロセスがまだハンドルを持っている。1 秒ほど待って再実行すれば通る。sln の登録は先に外れているのでビルドは壊れていない |
@@ -241,18 +250,21 @@ paiza の `mcs` は C# 7.0 相当で、しかも C# 7.0 の一部が未実装で
 
 ### ターミナルから採点する
 
+`pwsh` の中で実行します (zsh などからは `pwsh ./tools/Run-Problem.ps1 002`)。
+パスは `/` 区切りで書けば Windows でも macOS でも通ります。
+
 ```powershell
 # mcs + mono で実行して expected*.txt と比較 (問題名は部分一致でよい)
-.\tools\Run-Problem.ps1 002
+./tools/Run-Problem.ps1 002
 
 # 自分でキーボード入力する
-.\tools\Run-Problem.ps1 002 -Interactive
+./tools/Run-Problem.ps1 002 -Interactive
 
 # Mono ではなく .NET で実行する (Mono に無い API は検出されない)
-.\tools\Run-Problem.ps1 002 -UseDotnet
+./tools/Run-Problem.ps1 002 -UseDotnet
 ```
 
-### Visual Studio を使う
+### Visual Studio を使う (Windows のみ)
 
 1. `Paiza.slnx` を開く (`.slnx` 対応は Visual Studio 17.14 以降)
 2. ソリューションエクスプローラーで解きたい問題を右クリック → 「スタートアップ プロジェクトに設定」
@@ -331,25 +343,26 @@ Roslyn だけでは `LangVersion` で防げる範囲 (C# 7.1 以降の構文) �
 ## フォルダ構成
 
 ```
-paiza-csharp\
+paiza-csharp/
 ├── Paiza.slnx                 ソリューション (XML 形式。1 プロジェクト 1 行)
 ├── Directory.Build.props      C# 7.0 固定と mcs チェックの設定 (全問題に適用)
 ├── README.md / CHEATSHEET.md
-├── .mcs-cache\                保存時チェックの出力先 (git 管理外)
-├── .vscode\                   デバッグ実行・タスク・inlay hints の設定
-├── shared\
+├── .mcs-cache/                保存時チェックの出力先 (git 管理外)
+├── .vscode/                   デバッグ実行・タスク・inlay hints の設定
+├── shared/
 │   └── LocalRunner.cs         .NET でのデバッグ実行時に input*.txt を順に標準入力に流す
-├── templates\problem\         新しい問題のひな形
-├── tools\
+├── templates/problem/         新しい問題のひな形
+├── tools/
+│   ├── _Mono.ps1              mcs / mono を探す共通処理 (Windows / macOS の既定の場所も探す)
 │   ├── _Solution.ps1          ソリューション操作の共通処理 (実体のない参照の掃除など)
 │   ├── New-Problem.ps1        新しい問題フォルダを作る
 │   ├── Remove-Problem.ps1     問題フォルダを削除しソリューションの登録も外す
 │   ├── Run-Problem.ps1        mcs でコンパイルし mono で実行して expected*.txt と比較
 │   └── Watch-Mono.ps1         保存を監視して mcs のエラーを「問題」パネルに出す常駐タスク
-└── problems\
-    ├── 001_hello\             入力なし・出力だけ
-    ├── 002_two_ints\          「3 5」-> 合計
-    └── 003_n_lines\           N 行読んで合計
+└── problems/
+    ├── 001_hello/             入力なし・出力だけ
+    ├── 002_two_ints/          「3 5」-> 合計
+    └── 003_n_lines/           N 行読んで合計
         ├── 003_n_lines.csproj
         ├── Program.cs         paiza に貼り付けるファイル
         ├── input1.txt         問題の入力例

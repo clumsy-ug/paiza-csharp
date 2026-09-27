@@ -106,7 +106,7 @@ internal static class LocalRunner
 
     // ---- テストケースの探索 -------------------------------------------------
 
-    // 出力先 (bin\Debug\net10.0) から上に辿って、.csproj のあるフォルダ = 問題フォルダを探す
+    // 出力先 (bin/Debug/net10.0) から上に辿って、.csproj のあるフォルダ = 問題フォルダを探す
     private static string FindProblemDir()
     {
         DirectoryInfo dir = new DirectoryInfo(AppContext.BaseDirectory);

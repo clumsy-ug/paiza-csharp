@@ -1,8 +1,8 @@
 # 既定はテキストとして扱い、リポジトリ内は LF、チェックアウト時は OS に合わせる
 * text=auto
 
-# PowerShell スクリプトは Windows 前提なので CRLF で取り出す
+# PowerShell スクリプトは CRLF で取り出す (pwsh は Windows でも macOS でも CRLF のまま読める)
 *.ps1 text eol=crlf
 
-# 問題の入出力は Windows で編集するので CRLF
+# 問題の入出力も CRLF (採点スクリプトと LocalRunner が改行コードの違いを吸収する)
 *.txt text eol=crlf

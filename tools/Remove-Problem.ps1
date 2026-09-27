@@ -8,8 +8,8 @@
     このスクリプトは sln の登録を外してからフォルダを削除します。
 
 .EXAMPLE
-    .\tools\Remove-Problem.ps1 005
-    .\tools\Remove-Problem.ps1 005_ミス問題 -Force
+    ./tools/Remove-Problem.ps1 005
+    ./tools/Remove-Problem.ps1 005_ミス問題 -Force
 #>
 [CmdletBinding()]
 param(
@@ -61,7 +61,7 @@ if (-not $dir) {
 $name = Split-Path -Leaf $dir
 
 # 何を消すのか見せる
-Write-Host "削除対象: problems\$name" -ForegroundColor Yellow
+Write-Host "削除対象: problems/$name" -ForegroundColor Yellow
 $source = Join-Path $dir 'Program.cs'
 if (Test-Path -LiteralPath $source) {
     $lines = @(Get-Content -LiteralPath $source).Count
@@ -111,7 +111,7 @@ if ($sln -and $csprojPath) {
 }
 
 # VS Code の C# Dev Kit は、追加された直後のプロジェクトを自動で復元・ビルドし、
-# その間フォルダのハンドルを保持する (bin\ obj\ が勝手に生えるのがその痕跡)。
+# その間フォルダのハンドルを保持する (bin/ obj/ が勝手に生えるのがその痕跡)。
 # ソリューションから外した後は数秒で解放されるので、それを待つ。
 # Remove-Item -Recurse ではなく Directory.Delete を使う (挙動が素直)。
 $waits   = @(500, 1000, 1500, 2000, 3000, 4000, 5000)
@@ -145,8 +145,9 @@ if (-not $deleted) {
     if ($left -eq 0) {
         Write-Host "残っているのは空フォルダだけです。" -ForegroundColor Cyan
     }
-    Write-Host "少し待ってもう一度実行するか、エクスプローラーで手動削除してください。" -ForegroundColor Cyan
+    $fileManager = if ($env:OS -eq 'Windows_NT') { 'エクスプローラー' } else { 'Finder' }
+    Write-Host "少し待ってもう一度実行するか、$fileManager で手動削除してください。" -ForegroundColor Cyan
     exit 1
 }
 
-Write-Host "削除しました: problems\$name" -ForegroundColor Green
+Write-Host "削除しました: problems/$name" -ForegroundColor Green

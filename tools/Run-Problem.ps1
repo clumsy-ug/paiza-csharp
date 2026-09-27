@@ -9,10 +9,10 @@
     (その場合 Mono に存在しない API は検出できません)。
 
 .EXAMPLE
-    .\tools\Run-Problem.ps1 001
-    .\tools\Run-Problem.ps1 002_two_ints
-    .\tools\Run-Problem.ps1 003 -Interactive   # 自分でキーボード入力する
-    .\tools\Run-Problem.ps1 003 -UseDotnet     # .NET 側で実行する
+    ./tools/Run-Problem.ps1 001
+    ./tools/Run-Problem.ps1 002_two_ints
+    ./tools/Run-Problem.ps1 003 -Interactive   # 自分でキーボード入力する
+    ./tools/Run-Problem.ps1 003 -UseDotnet     # .NET 側で実行する
 #>
 [CmdletBinding()]
 param(
@@ -34,6 +34,9 @@ $ErrorActionPreference = 'Stop'
 $root        = Split-Path -Parent $PSScriptRoot
 $problemsDir = Join-Path $root 'problems'
 
+# Find-MonoTool / Get-MonoInstallHint（Windows と macOS の両方に対応）
+. (Join-Path $PSScriptRoot '_Mono.ps1')
+
 # ---- 問題フォルダの特定 ----------------------------------------------------
 function Resolve-ProblemDir([string]$name) {
     if ([string]::IsNullOrWhiteSpace($name)) { return $null }
@@ -54,18 +57,6 @@ function Resolve-ProblemDir([string]$name) {
         Write-Host "候補が複数あります:" -ForegroundColor Yellow
         $hit | ForEach-Object { Write-Host "  $($_.Name)" }
         return $null
-    }
-    return $null
-}
-
-function Find-MonoTool([string]$tool) {
-    $cmd = Get-Command $tool -ErrorAction SilentlyContinue
-    if ($cmd) { return $cmd.Source }
-    foreach ($base in @("$env:ProgramFiles\Mono\bin", "${env:ProgramFiles(x86)}\Mono\bin")) {
-        foreach ($ext in @('.bat', '.exe')) {
-            $p = Join-Path $base "$tool$ext"
-            if (Test-Path -LiteralPath $p) { return $p }
-        }
     }
     return $null
 }
@@ -104,7 +95,7 @@ $usedEnv = @{}
 
 if ($mcs -and $mono) {
     # paiza と同じ: Program.cs 単体を mcs でコンパイルし、mono で実行する
-    $exe = Join-Path $dir 'bin\mono\Program.exe'
+    $exe = Join-Path $dir 'bin' 'mono' 'Program.exe'
     New-Item -ItemType Directory -Force -Path (Split-Path $exe) | Out-Null
 
     $log = & $mcs -target:exe -nologo "-out:$exe" $source 2>&1
@@ -124,7 +115,7 @@ if ($mcs -and $mono) {
     # フォールバック: .NET でビルドして実行する
     if (-not $UseDotnet) {
         Write-Host "Mono が見つからないため .NET で実行します (Mono に無い API は検出できません)。" -ForegroundColor Yellow
-        Write-Host "  winget install Mono.Mono" -ForegroundColor Yellow
+        Write-Host "  $(Get-MonoInstallHint)" -ForegroundColor Yellow
     }
 
     $csproj = Get-ChildItem -LiteralPath $dir -Filter '*.csproj' | Select-Object -First 1
@@ -138,10 +129,12 @@ if ($mcs -and $mono) {
         exit 1
     }
 
-    # 出力名は Directory.Build.props で problem に固定してある
-    $cmd     = Join-Path $dir 'bin\Debug\net10.0\problem.exe'
-    $cmdArgs = @()
-    if (-not (Test-Path -LiteralPath $cmd)) { throw "実行ファイルが見つかりません: $cmd" }
+    # 出力名は Directory.Build.props で problem に固定してある。
+    # dotnet problem.dll で起動すれば、実行ファイル名が Windows (problem.exe) と macOS (problem) で違うのを気にしなくてよい
+    $dll     = Join-Path $dir 'bin' 'Debug' 'net10.0' 'problem.dll'
+    if (-not (Test-Path -LiteralPath $dll)) { throw "実行ファイルが見つかりません: $dll" }
+    $cmd     = 'dotnet'
+    $cmdArgs = @($dll)
 
     # LocalRunner による input*.txt の読み込みを止め、標準入力はこちらから渡す
     $usedEnv['PAIZA_STDIN'] = 'pipe'
@@ -190,8 +183,8 @@ if ($inputs.Count -eq 0) {
     $inputs = @($null)
 }
 
-$outFile  = Join-Path $dir 'bin\_last_output.txt'
-$errFile  = Join-Path $dir 'bin\_last_stderr.txt'
+$outFile  = Join-Path $dir 'bin' '_last_output.txt'
+$errFile  = Join-Path $dir 'bin' '_last_stderr.txt'
 New-Item -ItemType Directory -Force -Path (Split-Path $outFile) | Out-Null
 $allOk    = $true
 $anyCheck = $false

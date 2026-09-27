@@ -3,9 +3,9 @@
     新しい問題フォルダを作って、ソリューションに追加します。
 
 .EXAMPLE
-    .\tools\New-Problem.ps1 sum_of_array          # → problems\004_sum_of_array
-    .\tools\New-Problem.ps1 010_my_problem        # 番号を自分で付けてもOK
-    .\tools\New-Problem.ps1 "STEP: 1 文字の出力"  # → problems\005_STEP：1_文字の出力
+    ./tools/New-Problem.ps1 sum_of_array          # → problems/004_sum_of_array
+    ./tools/New-Problem.ps1 010_my_problem        # 番号を自分で付けてもOK
+    ./tools/New-Problem.ps1 "STEP: 1 文字の出力"  # → problems/005_STEP：1_文字の出力
 #>
 [CmdletBinding()]
 param(
@@ -19,11 +19,11 @@ param(
 $ErrorActionPreference = 'Stop'
 $root        = Split-Path -Parent $PSScriptRoot
 $problemsDir = Join-Path $root 'problems'
-$templateDir = Join-Path $root 'templates\problem'
+$templateDir = Join-Path $root 'templates' 'problem'
 
 . (Join-Path $PSScriptRoot '_Solution.ps1')
 
-# 日本語の問題名をそのまま使える。Windows のパスとして使えない文字だけ弾く。
+# 日本語の問題名をそのまま使える。Windows でも macOS でも開けるよう、Windows のパスとして使えない文字を弾く。
 $Name = $Name.Trim()
 if ([string]::IsNullOrWhiteSpace($Name)) {
     throw "問題名を指定してください。"
@@ -71,7 +71,7 @@ foreach ($f in @('Program.cs', 'input1.txt', 'expected1.txt', 'input2.txt', 'exp
 
 @"
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- 共通設定は ..\..\Directory.Build.props にある -->
+  <!-- 共通設定は ../../Directory.Build.props にある -->
 </Project>
 "@ | Set-Content -LiteralPath (Join-Path $dir "$Name.csproj") -Encoding utf8NoBOM
 
@@ -86,14 +86,15 @@ if ($sln) {
     dotnet sln $sln add (Join-Path $dir "$Name.csproj") | Out-Null
 }
 
-Write-Host "作成しました: problems\$Name" -ForegroundColor Green
+Write-Host "作成しました: problems/$Name" -ForegroundColor Green
 Write-Host ""
 Write-Host "次にやること:" -ForegroundColor Cyan
-Write-Host "  1. problems\$Name\input1.txt    に問題の入力例1を貼る"
-Write-Host "  2. problems\$Name\expected1.txt に出力例1を貼る"
+Write-Host "  1. problems/$Name/input1.txt    に問題の入力例1を貼る"
+Write-Host "  2. problems/$Name/expected1.txt に出力例1を貼る"
 Write-Host "     (入力例2/3は input2.txt / expected2.txt, input3.txt / expected3.txt に貼る。"
 Write-Host "      無い分は空のままでよい。空の対は採点時にスキップされる)"
-Write-Host "  3. problems\$Name\Program.cs   を書く"
-Write-Host "  4. Program.cs を開いた状態で Ctrl+Shift+B で採点"
+Write-Host "  3. problems/$Name/Program.cs   を書く"
+$buildKey = if ($env:OS -eq 'Windows_NT') { 'Ctrl+Shift+B' } else { '⌘+Shift+B' }
+Write-Host "  4. Program.cs を開いた状態で $buildKey で採点"
 
 if ($Open) { code (Join-Path $dir 'Program.cs') }

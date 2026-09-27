@@ -1,7 +1,7 @@
 <Project>
 
   <!--
-    problems\ 配下の全プロジェクトに適用される共通設定。
+    problems/ 配下の全プロジェクトに適用される共通設定。
     各問題の .csproj は空でよい。
 
     paiza の実行環境 (https://paiza.jp/guide/language):
@@ -36,7 +36,7 @@
     <!--
       出力ファイル名は問題名によらず固定にする。
       問題フォルダに日本語を使っても、デバッガに渡すパス
-      (bin\Debug\net10.0\problem.dll) が ASCII のままになる。
+      (bin/Debug/net10.0/problem.dll) が ASCII のままになる。
     -->
     <AssemblyName>problem</AssemblyName>
 
@@ -55,6 +55,10 @@
   <PropertyGroup>
     <MonoMcs Condition="'$(MonoMcs)' == '' And Exists('$(ProgramW6432)\Mono\bin\mcs.bat')">$(ProgramW6432)\Mono\bin\mcs.bat</MonoMcs>
     <MonoMcs Condition="'$(MonoMcs)' == '' And Exists('$(ProgramFiles)\Mono\bin\mcs.bat')">$(ProgramFiles)\Mono\bin\mcs.bat</MonoMcs>
+    <!-- macOS: Homebrew (Apple Silicon / Intel) と Mono 公式の .pkg -->
+    <MonoMcs Condition="'$(MonoMcs)' == '' And Exists('/opt/homebrew/bin/mcs')">/opt/homebrew/bin/mcs</MonoMcs>
+    <MonoMcs Condition="'$(MonoMcs)' == '' And Exists('/usr/local/bin/mcs')">/usr/local/bin/mcs</MonoMcs>
+    <MonoMcs Condition="'$(MonoMcs)' == '' And Exists('/Library/Frameworks/Mono.framework/Versions/Current/Commands/mcs')">/Library/Frameworks/Mono.framework/Versions/Current/Commands/mcs</MonoMcs>
   </PropertyGroup>
 
   <!--
@@ -63,8 +67,8 @@
   -->
   <Target Name="PaizaMonoCheck"
           AfterTargets="Build"
-          Condition="'$(PaizaMonoCheck)' == 'true' And '$(MonoMcs)' != '' And Exists('$(MSBuildProjectDirectory)\Program.cs')">
-    <Exec Command="&quot;$(MonoMcs)&quot; -target:exe -nologo -out:&quot;$(IntermediateOutputPath)mcs-check.exe&quot; &quot;$(MSBuildProjectDirectory)\Program.cs&quot;"
+          Condition="'$(PaizaMonoCheck)' == 'true' And '$(MonoMcs)' != '' And Exists('$(MSBuildProjectDirectory)/Program.cs')">
+    <Exec Command="&quot;$(MonoMcs)&quot; -target:exe -nologo -out:&quot;$(IntermediateOutputPath)mcs-check.exe&quot; &quot;$(MSBuildProjectDirectory)/Program.cs&quot;"
           StandardOutputImportance="high" />
   </Target>
 
